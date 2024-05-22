@@ -49,7 +49,7 @@ from YukkiMusic.utils.database import (
     set_loop,
 )
 from YukkiMusic.utils.exceptions import AssistantErr
-from YukkiMusic.utils.inline.play import stream_markup, telegram_markup
+from YukkiMusic.utils.inline.play import stream_markup, stream_markup2
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
 from strings import get_string
