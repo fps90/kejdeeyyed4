@@ -12,9 +12,9 @@ from random import randint
 from typing import Union
 
 from pyrogram.types import InlineKeyboardMarkup
-from pyrogram import Client
+
 import config
-from YukkiMusic import Carbon, YouTube
+from YukkiMusic import Carbon, YouTube, app
 from YukkiMusic.core.call import Yukki
 from YukkiMusic.misc import db
 from YukkiMusic.utils.database import (
@@ -36,7 +36,7 @@ async def stream(
     user_id,
     result,
     chat_id,
-    user_name,
+    user_mention,
     original_chat_id,
     video: Union[bool, str] = None,
     streamtype: Union[bool, str] = None,
@@ -77,7 +77,7 @@ async def stream(
                     f"vid_{vidid}",
                     title,
                     duration_min,
-                    user_name,
+                    user_mention,
                     vidid,
                     user_id,
                     "video" if video else "audio",
@@ -105,23 +105,22 @@ async def stream(
                     file_path if direct else f"vid_{vidid}",
                     title,
                     duration_min,
-                    user_name,
+                    user_mention,
                     vidid,
                     user_id,
                     "video" if video else "audio",
                     forceplay=forceplay,
                 )
                 img = await gen_thumb(vidid)
-                me = await client.get_me()
                 button = stream_markup(_, vidid, chat_id)
-                run = await client.send_photo(
+                run = await app.send_photo(
                     original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
-                        title[:27],
-                        f"https://t.me/{me.username}?start=info_{vidid}",
+                        title[:18],
+                        f"https://t.me/{app.username}?start=info_{vidid}",
                         duration_min,
-                        user_name,
+                        user_mention,
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
@@ -138,10 +137,10 @@ async def stream(
                 car = msg
             carbon = await Carbon.generate(car, randint(100, 10000000))
             upl = close_markup(_)
-            return await client.send_photo(
+            return await app.send_photo(
                 original_chat_id,
                 photo=carbon,
-                caption=_["playlist_18"].format(position, link),
+                caption=_["playlist_18"].format(link, position),
                 reply_markup=upl,
             )
     elif streamtype == "youtube":
@@ -164,7 +163,7 @@ async def stream(
                 file_path if direct else f"vid_{vidid}",
                 title,
                 duration_min,
-                user_name,
+                user_mention,
                 vidid,
                 user_id,
                 "video" if video else "audio",
@@ -172,11 +171,11 @@ async def stream(
             position = len(db.get(chat_id)) - 1
             qimg = await gen_qthumb(vidid)
             button = queue_markup(_, vidid, chat_id)
-            run = await client.send_photo(
+            run = await app.send_photo(
                 original_chat_id,
                 photo=qimg,
                 caption=_["queue_4"].format(
-                    position, title[:27], duration_min, user_name
+                    position, title[:18], duration_min, user_mention
                 ),
                 reply_markup=InlineKeyboardMarkup(button),
             )
@@ -192,24 +191,23 @@ async def stream(
                 file_path if direct else f"vid_{vidid}",
                 title,
                 duration_min,
-                user_name,
+                user_mention,
                 vidid,
                 user_id,
                 "video" if video else "audio",
                 forceplay=forceplay,
             )
             img = await gen_thumb(vidid)
-            me = await client.get_me()
             button = stream_markup(_, vidid, chat_id)
             try:
-                run = await client.send_photo(
+                run = await app.send_photo(
                     original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
-                        title[:27],
-                        f"https://t.me/{me.username}?start=info_{vidid}",
+                        title[:18],
+                        f"https://t.me/{app.username}?start=info_{vidid}",
                         duration_min,
-                        user_name,
+                        user_mention,
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
@@ -228,15 +226,15 @@ async def stream(
                 file_path,
                 title,
                 duration_min,
-                user_name,
+                user_mention,
                 streamtype,
                 user_id,
                 "audio",
             )
             position = len(db.get(chat_id)) - 1
-            await client.send_message(
+            await app.send_message(
                 original_chat_id,
-                _["queue_4"].format(position, title[:30], duration_min, user_name),
+                _["queue_4"].format(position, title[:18], duration_min, user_mention),
             )
         else:
             if not forceplay:
@@ -248,17 +246,17 @@ async def stream(
                 file_path,
                 title,
                 duration_min,
-                user_name,
+                user_mention,
                 streamtype,
                 user_id,
                 "audio",
                 forceplay=forceplay,
             )
             button = telegram_markup(_, chat_id)
-            run = await client.send_photo(
+            run = await app.send_photo(
                 original_chat_id,
                 photo=config.SOUNCLOUD_IMG_URL,
-                caption=_["stream_3"].format(title, duration_min, user_name),
+                caption=_["stream_3"].format(title[:23], duration_min, user_mention),
                 reply_markup=InlineKeyboardMarkup(button),
             )
             db[chat_id][0]["mystic"] = run
@@ -276,15 +274,15 @@ async def stream(
                 file_path,
                 title,
                 duration_min,
-                user_name,
+                user_mention,
                 streamtype,
                 user_id,
                 "video" if video else "audio",
             )
             position = len(db.get(chat_id)) - 1
-            await client.send_message(
+            await app.send_message(
                 original_chat_id,
-                _["queue_4"].format(position, title[:30], duration_min, user_name),
+                _["queue_4"].format(position, title[:18], duration_min, user_mention),
             )
         else:
             if not forceplay:
@@ -296,7 +294,7 @@ async def stream(
                 file_path,
                 title,
                 duration_min,
-                user_name,
+                user_mention,
                 streamtype,
                 user_id,
                 "video" if video else "audio",
@@ -305,10 +303,10 @@ async def stream(
             if video:
                 await add_active_video_chat(chat_id)
             button = telegram_markup(_, chat_id)
-            run = await client.send_photo(
+            run = await app.send_photo(
                 original_chat_id,
                 photo=config.TELEGRAM_VIDEO_URL if video else config.TELEGRAM_AUDIO_URL,
-                caption=_["stream_4"].format(title, link, duration_min, user_name),
+                caption=_["stream_4"].format(title[:23], link, duration_min, user_mention),
                 reply_markup=InlineKeyboardMarkup(button),
             )
             db[chat_id][0]["mystic"] = run
@@ -327,15 +325,15 @@ async def stream(
                 f"live_{vidid}",
                 title,
                 duration_min,
-                user_name,
+                user_mention,
                 vidid,
                 user_id,
                 "video" if video else "audio",
             )
             position = len(db.get(chat_id)) - 1
-            await client.send_message(
+            await app.send_message(
                 original_chat_id,
-                _["queue_4"].format(position, title[:30], duration_min, user_name),
+                _["queue_4"].format(position, title[:18], duration_min, user_mention),
             )
         else:
             if not forceplay:
@@ -356,23 +354,22 @@ async def stream(
                 f"live_{vidid}",
                 title,
                 duration_min,
-                user_name,
+                user_mention,
                 vidid,
                 user_id,
                 "video" if video else "audio",
                 forceplay=forceplay,
             )
             img = await gen_thumb(vidid)
-            me = await client.get_me()
             button = telegram_markup(_, chat_id)
-            run = await client.send_photo(
+            run = await app.send_photo(
                 original_chat_id,
                 photo=img,
                 caption=_["stream_1"].format(
-                    title[:27],
-                    f"https://t.me/{me.username}?start=info_{vidid}",
+                    title[:23],
+                    f"https://t.me/{app.username}?start=info_{vidid}",
                     duration_min,
-                    user_name,
+                    user_mention,
                 ),
                 reply_markup=InlineKeyboardMarkup(button),
             )
@@ -389,13 +386,13 @@ async def stream(
                 "index_url",
                 title,
                 duration_min,
-                user_name,
+                user_mention,
                 link,
                 "video" if video else "audio",
             )
             position = len(db.get(chat_id)) - 1
             await mystic.edit_text(
-                _["queue_4"].format(position, title[:30], duration_min, user_name)
+                _["queue_4"].format(position, title[:27], duration_min, user_mention)
             )
         else:
             if not forceplay:
@@ -412,16 +409,16 @@ async def stream(
                 "index_url",
                 title,
                 duration_min,
-                user_name,
+                user_mention,
                 link,
                 "video" if video else "audio",
                 forceplay=forceplay,
             )
             button = telegram_markup(_, chat_id)
-            run = await client.send_photo(
+            run = await app.send_photo(
                 original_chat_id,
                 photo=config.STREAM_IMG_URL,
-                caption=_["stream_2"].format(user_name),
+                caption=_["stream_2"].format(user_mention),
                 reply_markup=InlineKeyboardMarkup(button),
             )
             db[chat_id][0]["mystic"] = run
