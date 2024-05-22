@@ -49,7 +49,7 @@ from YukkiMusic.utils.database import (
     set_loop,
 )
 from YukkiMusic.utils.exceptions import AssistantErr
-from YukkiMusic.utils.inline.play import stream_markup, stream_markup2
+from YukkiMusic.utils.inline.play import stream_markup, telegram_markup
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
 from strings import get_string
@@ -437,7 +437,7 @@ class Call(PyTgCalls):
                         text=_["call_9"],
                     )
                 img = await gen_thumb(videoid)
-                button = stream_markup2(_, chat_id)
+                button = telegram_markup(_, chat_id)
                 run = await app.send_photo(
                     original_chat_id,
                     photo=img,
@@ -527,7 +527,7 @@ class Call(PyTgCalls):
                         original_chat_id,
                         text=_["call_9"],
                     )
-                button = stream_markup2(_, chat_id)
+                button = telegram_markup(_, chat_id)
                 run = await app.send_photo(
                     original_chat_id,
                     photo=config.STREAM_IMG_URL,
@@ -573,7 +573,7 @@ class Call(PyTgCalls):
                         text=_["call_9"],
                     )
                 if videoid == "telegram":
-                    button = stream_markup2(_, chat_id)
+                    button = telegram_markup(_, chat_id)
                     run = await app.send_photo(
                         original_chat_id,
                         photo=(
