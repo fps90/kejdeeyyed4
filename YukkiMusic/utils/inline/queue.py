@@ -71,3 +71,64 @@ def queue_back_markup(_, CPLAY):
         ]
     )
     return upl
+
+
+def aq_markup(_, chat_id):
+    buttons = [
+        [
+            InlineKeyboardButton(text="II 𝖯𝖺𝗎𝗌𝖾", callback_data=f"ADMIN Pause|{chat_id}"),
+            InlineKeyboardButton(text="▢ 𝖲𝗍𝗈𝗉", callback_data=f"ADMIN Stop|{chat_id}"),
+            InlineKeyboardButton(text="𝖲𝗄𝗂𝗉 ‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
+
+        ],
+        [
+            InlineKeyboardButton(text="▷ 𝖱𝖾𝗌𝗎𝗆𝖾", callback_data=f"ADMIN Resume|{chat_id}"),
+            InlineKeyboardButton(text="𝖱𝖾𝗉𝗅𝖺𝗒 ↺", callback_data=f"ADMIN Replay|{chat_id}"),
+        ],
+        [
+            InlineKeyboardButton(
+                text="نوێکارییەکانی ئەلینا 🍻", url="https://t.me/MGIMT",
+            ),
+        ],
+    ]
+    return buttons
+
+
+def queuemarkup(_, vidid, chat_id):
+
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text=_["S_B_3"],
+                url=f"https://t.me/{app.username}?startgroup=true",
+            ),
+        ],
+
+
+        [
+            InlineKeyboardButton(
+                text="II 𝖯𝖺𝗎𝗌𝖾",
+                callback_data=f"ADMIN Pause|{chat_id}",
+            ),
+
+            InlineKeyboardButton(
+                text="▢ 𝖲𝗍𝗈𝗉", callback_data=f"ADMIN Stop|{chat_id}"
+            ),
+
+            InlineKeyboardButton(
+                text="𝖲𝗄𝗂𝗉 ‣‣I", callback_data=f"ADMIN Skip|{chat_id}"
+            ),
+        ],
+        [
+            InlineKeyboardButton(text="▷ 𝖱𝖾𝗌𝗎𝗆𝖾", callback_data=f"ADMIN Resume|{chat_id}"),
+            InlineKeyboardButton(text="𝖱𝖾𝗉𝗅𝖺𝗒 ↺", callback_data=f"ADMIN Replay|{chat_id}"),
+        ],
+        [
+            InlineKeyboardButton(
+                text="نوێکارییەکانی ئەلینا 🍻", url="https://t.me/MGIMT",
+                
+            ),
+        ],
+    ]
+
+    return buttons
