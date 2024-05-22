@@ -242,7 +242,9 @@ CLOSE_BUTTON  : "داخستن"
 CLOSEMENU_BUTTON  : "داخستن"
 BACK_BUTTON : "گـەڕانـەوە"
 UNBAN_BUTTON : "✥ لادانی باند ✥"
-
+HOME : "• سەرەتا •"
+NEXT : "• دواتر •"
+DOWN : "↓ داگرتنی ئەم گۆرانییە لە دوگمەی ↓"
 #Lyrics
 L_B_1 : "🚀 ᴄʜᴇᴄᴋᴏᴜᴛ ʟʏʀɪᴄs ɴᴏᴡ"
 
