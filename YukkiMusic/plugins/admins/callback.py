@@ -37,7 +37,7 @@ from YukkiMusic.utils.database import (
 )
 from YukkiMusic.utils.decorators.language import languageCB
 from YukkiMusic.utils.formatters import seconds_to_min
-from AlinaXIQ.utils.inline import close_markup, stream_markup, stream_markup_timer, stream_markup2, stream_markup_timer2, panel_markup_5, track_markup, slider_markup, livestream_markup, playlist_markup, stream_markup, stream_markup_timer, telegram_markup, panel_markup_4, panel_markup_3, panel_markup_2, stream_markup_timer2, stream_markup2, queue_markup, panel_markup_1 
+from YukkiMusic.utils.inline import close_markup, stream_markup, stream_markup_timer, stream_markup2, stream_markup_timer2, panel_markup_5, track_markup, slider_markup, livestream_markup, playlist_markup, stream_markup, stream_markup_timer, telegram_markup, panel_markup_4, panel_markup_3, panel_markup_2, stream_markup_timer2, stream_markup2, queue_markup, panel_markup_1 
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
 
