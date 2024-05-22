@@ -45,3 +45,4 @@ youtube-search-python
 git+https://github.com/joetats/youtube_search@master
 uuid==1.30
 SafoneAPI
+wget
