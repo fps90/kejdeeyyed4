@@ -12,7 +12,7 @@ import random
 
 from pyrogram import filters
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup
-
+import config
 from config import (
     BANNED_USERS,
     SOUNCLOUD_IMG_URL,
