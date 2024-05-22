@@ -308,14 +308,12 @@ async def del_back_playlist(client, CallbackQuery, _):
             except Exception:
                 return await CallbackQuery.message.reply_text(_["call_9"])
             button = stream_markup2(_, chat_id)
-            img = await gen_thumb(videoid, user_id)
+            img = await gen_thumb(videoid)
             run = await CallbackQuery.message.reply_photo(
                 photo=img,
                 caption=_["stream_1"].format(
-                    f"https://t.me/{app.username}?start=info_{videoid}",
-                    title[:23],
-                    duration,
                     user,
+                    f"https://t.me/{app.username}?start=info_{videoid}",
                 ),
                 reply_markup=InlineKeyboardMarkup(button),
             )
@@ -344,8 +342,8 @@ async def del_back_playlist(client, CallbackQuery, _):
             run = await CallbackQuery.message.reply_photo(
                 photo=img,
                 caption=_["stream_1"].format(
-                    f"https://t.me/{app.username}?start=info_{videoid}",
                     title[:23],
+                    f"https://t.me/{app.username}?start=info_{videoid}",
                     duration_min,
                     user,
                 ),
@@ -360,7 +358,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                 await Yukki.skip_stream(chat_id, videoid, video=status)
             except Exception:
                 return await CallbackQuery.message.reply_text(_["call_9"])
-            button = telegram_markup(_, chat_id)
+            button = stream_markup2(_, chat_id)
             run = await CallbackQuery.message.reply_photo(
                 photo=STREAM_IMG_URL,
                 caption=_["stream_2"].format(user),
@@ -382,7 +380,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         if str(streamtype) == "audio"
                         else TELEGRAM_VIDEO_URL
                     ),
-                    caption=_["stream_1"].format(config.SUPPORT_GROUP, title[:23], check[0]["dur"], user),
+                    caption=_["stream_1"].format(title[:23], check[0]["dur"], user),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
                 db[chat_id][0]["mystic"] = run
@@ -395,7 +393,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         if str(streamtype) == "audio"
                         else TELEGRAM_VIDEO_URL
                     ),
-                    caption=_["stream_1"].format(config.SUPPORT_GROUP, title[:23], check[0]["dur"], user),
+                    caption=_["stream_1"].format(title[:23], check[0]["dur"], user),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
                 db[chat_id][0]["mystic"] = run
@@ -406,8 +404,8 @@ async def del_back_playlist(client, CallbackQuery, _):
                 run = await CallbackQuery.message.reply_photo(
                     photo=img,
                     caption=_["stream_1"].format(
-                        f"https://t.me/{app.username}?start=info_{videoid}",
                         title[:23],
+                        f"https://t.me/{app.username}?start=info_{videoid}",
                         duration_min,
                         user,
                     ),
