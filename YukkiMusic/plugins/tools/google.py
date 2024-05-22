@@ -3,6 +3,7 @@ from pyrogram import filters
 from pyrogram.enums import ChatAction
 from googlesearch import search
 from YukkiMusic import app
+from YukkiMusic import api
 
 
 @app.on_message(filters.command(["google", "gle"]))
@@ -30,5 +31,33 @@ async def google(bot, message):
         logging.exception(e)
 
 
+@app.on_message(filters.command(["app", "apps"]))
+async def app(bot, message):
+    if len(message.command) < 2 and not message.reply_to_message:
+        await message.reply_text("Example:\n\n`/app Free Fire`")
+        return
+
+    if message.reply_to_message and message.reply_to_message.text:
+        user_input = message.reply_to_message.text
+    else:
+        user_input = " ".join(message.command[1:])
+    cbb = await message.reply_text("**Sᴇᴀʀᴄʜɪɴɢ ᴏɴ Pʟᴀʏ Sᴛᴏʀᴇ....**")
+    a = await api.apps(user_input, 1)
+    b = a["results"][0]
+    icon = b["icon"]
+    id = b["id"]
+    link = b["link"]
+    ca = b["description"]
+    title = b["title"]
+    dev = b["developer"]
+    info = f"<b>[ᴛɪᴛʟᴇ : {title}]({link})</b>\n<b>ɪᴅ</b>: <code>{id}</code>\n<b>ᴅᴇᴠᴇʟᴏᴘᴇʀ</b> : {dev}\n<b>ᴅᴇsᴄʀɪᴘᴛɪᴏɴ </b>: {ca}"
+    try:
+        await message.reply_photo(icon, caption=info)
+        await cbb.delete()
+    except Exception as e:
+        await message.reply_text(e)
+
+
 __MODULE__ = "Gᴏᴏɢʟᴇ"
-__HELP__ = """/google [ǫᴜᴇʀʏ] - ᴛᴏ sᴇᴀʀᴄʜ ᴏɴ ɢᴏᴏɢʟᴇ ᴀɴᴅ ɢᴇᴛ ʀᴇsᴜʟᴛs"""
+__HELP__ = """/google [ǫᴜᴇʀʏ] - ᴛᴏ sᴇᴀʀᴄʜ ᴏɴ ɢᴏᴏɢʟᴇ ᴀɴᴅ ɢᴇᴛ ʀᴇsᴜʟᴛs
+/app | /apps [ᴀᴘᴘ ɴᴀᴍᴇ] - ᴛᴏ ɢᴇᴛ ᴀᴘᴘ ɪɴғᴏ ᴛʜᴀᴛ ᴀᴠᴀɪʟᴀʙʟᴇ ᴏɴ ᴘʟᴀʏsᴛᴏʀᴇ"""
