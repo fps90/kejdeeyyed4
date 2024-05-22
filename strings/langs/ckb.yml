@@ -243,7 +243,9 @@ CLOSE_BUTTON  : "ᴄʟᴏsᴇ"
 CLOSEMENU_BUTTON  : "ᴄʟᴏsᴇ"
 BACK_BUTTON : "ʙᴀᴄᴋ"
 UNBAN_BUTTON : "ᴜɴʙᴀɴ ᴀssɪsᴛᴀɴᴛ"
-
+HOME : "• 𝖧𝗈𝗆𝖾 •"
+NEXT : "• 𝖭𝖾𝗑𝗍 •"
+DOWN : "↓ 𝖣𝗈𝗐𝗇𝗅𝗈𝖺𝖽 𝖳𝗁𝗂𝗌 𝖲𝗈𝗇𝗀 𝖥𝗋𝗈𝗆 𝖡𝗎𝗍𝗍𝗈𝗇 ↓"
 #Lyrics
 L_B_1 : "🚀 ᴄʜᴇᴄᴋᴏᴜᴛ ʟʏʀɪᴄs ɴᴏᴡ"
 
