@@ -60,7 +60,7 @@ LOG_GROUP_ID = int(getenv("LOG_GROUP_ID", ""))
 
 # ________________________________________________________________________________#
 # A name for your Music bot.
-MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME", "Mrr...prince")
+MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME", "Alina")
 # ________________________________________________________________________________#
 
 PROTECT_CONTENT = getenv("PROTECT_CONTENT", "True")
@@ -69,7 +69,7 @@ PROTECT_CONTENT = getenv("PROTECT_CONTENT", "True")
 # ________________________________________________________________________________#
 # Your User ID.
 OWNER_ID = list(
-    map(int, getenv("OWNER_ID", "6815918609").split())
+    map(int, getenv("OWNER_ID", "833360381").split())
 )  # Input type must be interger
 
 
@@ -85,9 +85,9 @@ HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
 # For customized or modified Repository
 UPSTREAM_REPO = getenv(
     "UPSTREAM_REPO",
-    "https://github.com/Vivekkumar-IN/YukkiMusic",
+    "https://github.com/j0g5gd8798ly/kejdeeyyed4",
 )
-UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "dev")
+UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "main")
 
 # GIT TOKEN ( if your edited repo is private)
 GIT_TOKEN = getenv(
@@ -99,10 +99,10 @@ GIT_TOKEN = getenv(
 # ________________________________________________________________________________#
 # Only  Links formats are  accepted for this Var value.
 SUPPORT_CHANNEL = getenv(
-    "SUPPORT_CHANNEL", "https://t.me/Quizess_prince"
+    "SUPPORT_CHANNEL", "https://t.me/MGIMT"
 )  # Example:- https://t.me/Quizess_prince
 SUPPORT_GROUP = getenv(
-    "SUPPORT_GROUP", "https://t.me/Quizess_prince"
+    "SUPPORT_GROUP", "https://t.me/IQSUPP"
 )  # Example:- https://t.me/Quizess_prince
 
 # ________________________________________________________________________________#
