@@ -1,3 +1,12 @@
+#
+# Copyright (C) 2024-present by TeamYukki@Github, < https://github.com/TeamYukki >.
+#
+# This file is part of < https://github.com/TeamYukki/YukkiMusicBot > project,
+# and is released under the "GNU v3.0 License Agreement".
+# Please see < https://github.com/TeamYukki/YukkiMusicBot/blob/master/LICENSE >
+#
+# All rights reserved.
+#
 import os
 from random import randint
 from typing import Union
@@ -8,14 +17,17 @@ import config
 from YukkiMusic import Carbon, YouTube, app
 from YukkiMusic.core.call import Yukki
 from YukkiMusic.misc import db
-from YukkiMusic.utils.database import add_active_video_chat, is_active_chat, is_video_allowed
+from YukkiMusic.utils.database import (
+    add_active_video_chat,
+    is_active_chat,
+    is_video_allowed,
+)
 from YukkiMusic.utils.exceptions import AssistantErr
-from YukkiMusic.utils.inline import aq_markup, queuemarkup, close_markup, stream_markup, stream_markup2, panel_markup_4
+from YukkiMusic.utils.inline.play import queue_markup, aq_markup, stream_markup, stream_markup2
+from YukkiMusic.utils.inline.playlist import close_markup
 from YukkiMusic.utils.pastebin import Yukkibin
 from YukkiMusic.utils.stream.queue import put_queue, put_queue_index
-from youtubesearchpython.__future__ import VideosSearch
-from YukkiMusic.utils.thumbnails import gen_thumb, gen_qthumb
-
+from YukkiMusic.utils.thumbnails import gen_qthumb, gen_thumb
 
 
 async def stream(
@@ -72,7 +84,7 @@ async def stream(
                 )
                 position = len(db.get(chat_id)) - 1
                 count += 1
-                msg += f"{count}. {title[:70]}\n"
+                msg += f"{count}- {title[:70]}\n"
                 msg += f"{_['playlist_17']} {position}\n\n"
             else:
                 if not forceplay:
@@ -83,14 +95,9 @@ async def stream(
                         vidid, mystic, video=status, videoid=True
                     )
                 except:
-                    
-                    os.system(f"kill -9 {os.getpid()} && bash start")
+                    raise AssistantErr(_["play_16"])
                 await Yukki.join_call(
-                    chat_id,
-                    original_chat_id,
-                    file_path,
-                    video=status,
-                    image=thumbnail,
+                    chat_id, original_chat_id, file_path, video=status, image=thumbnail
                 )
                 await put_queue(
                     chat_id,
@@ -104,19 +111,19 @@ async def stream(
                     "video" if video else "audio",
                     forceplay=forceplay,
                 )
-                img = await get_thumb(vidid)
+                img = await gen_thumb(vidid)
                 button = stream_markup(_, vidid, chat_id)
                 run = await app.send_photo(
                     original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
-                        f"https://t.me/{app.username}?start=info_{vidid}",
                         title[:18],
+                        f"https://t.me/{app.username}?start=info_{vidid}",
                         duration_min,
-                        user_mention), reply_markup=InlineKeyboardMarkup(button))
-                
-                    
-                
+                        user_mention,
+                    ),
+                    reply_markup=InlineKeyboardMarkup(button),
+                )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "stream"
         if count == 0:
@@ -133,7 +140,7 @@ async def stream(
             return await app.send_photo(
                 original_chat_id,
                 photo=carbon,
-                caption=_["playlist_18"].format(position, link),
+                caption=_["playlist_18"].format(link, position),
                 reply_markup=upl,
             )
     elif streamtype == "youtube":
@@ -148,8 +155,7 @@ async def stream(
                 vidid, mystic, videoid=True, video=status
             )
         except:
-            
-            os.system(f"kill -9 {os.getpid()} && bash start")
+            raise AssistantErr(_["play_16"])
         if await is_active_chat(chat_id):
             await put_queue(
                 chat_id,
@@ -165,21 +171,19 @@ async def stream(
             position = len(db.get(chat_id)) - 1
             qimg = await gen_qthumb(vidid)
             button = aq_markup(_, vidid, chat_id)
-            await app.send_photo(
-                chat_id=original_chat_id,
+            run = await app.send_photo(
+                original_chat_id,
                 photo=qimg,
-                caption=_["queue_4"].format(position, title[:18], duration_min, user_mention),
+                caption=_["queue_4"].format(
+                    position, title[:27], duration_min, user_mention
+                ),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
             if not forceplay:
                 db[chat_id] = []
             await Yukki.join_call(
-                chat_id,
-                original_chat_id,
-                file_path,
-                video=status,
-                image=thumbnail,
+                chat_id, original_chat_id, file_path, video=status, image=thumbnail
             )
             await put_queue(
                 chat_id,
@@ -193,19 +197,24 @@ async def stream(
                 "video" if video else "audio",
                 forceplay=forceplay,
             )
-            img = await get_thumb(vidid)
+            img = await gen_thumb(vidid)
             button = stream_markup(_, vidid, chat_id)
-            run = await app.send_photo(
-                original_chat_id,
-                photo=img,
-                caption=_["stream_1"].format(
-                    f"https://t.me/{app.username}?start=info_{vidid}",
-                    title[:18],
-                    duration_min,
-                    user_mention), reply_markup=InlineKeyboardMarkup(button))
-                
-            db[chat_id][0]["mystic"] = run
-            db[chat_id][0]["markup"] = "stream"
+            try:
+                run = await app.send_photo(
+                    original_chat_id,
+                    photo=img,
+                    caption=_["stream_1"].format(
+                        title[:18],
+                        f"https://t.me/{app.username}?start=info_{vidid}",
+                        duration_min,
+                        user_mention,
+                    ),
+                    reply_markup=InlineKeyboardMarkup(button),
+                )
+                db[chat_id][0]["mystic"] = run
+                db[chat_id][0]["markup"] = "stream"
+            except Exception as ex:
+                print(ex)
     elif streamtype == "soundcloud":
         file_path = result["filepath"]
         title = result["title"]
@@ -225,8 +234,8 @@ async def stream(
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
             await app.send_message(
-                chat_id=original_chat_id,
-                text=_["queue_4"].format(position, title[:18], duration_min, user_mention),
+                original_chat_id,
+                _["queue_4"].format(position, title[:30], duration_min, user_mention),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
@@ -249,9 +258,7 @@ async def stream(
             run = await app.send_photo(
                 original_chat_id,
                 photo=config.SOUNCLOUD_IMG_URL,
-                caption=_["stream_1"].format(
-                    config.SUPPORT_CHAT, title[:23], duration_min, user_mention
-                ),
+                caption=_["stream_3"].format(title, duration_min, user_mention),
                 reply_markup=InlineKeyboardMarkup(button),
             )
             db[chat_id][0]["mystic"] = run
@@ -277,8 +284,8 @@ async def stream(
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
             await app.send_message(
-                chat_id=original_chat_id,
-                text=_["queue_4"].format(position, title[:18], duration_min, user_mention),
+                original_chat_id,
+                _["queue_4"].format(position, title[:30], duration_min, user_mention),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
@@ -303,7 +310,7 @@ async def stream(
             run = await app.send_photo(
                 original_chat_id,
                 photo=config.TELEGRAM_VIDEO_URL if video else config.TELEGRAM_AUDIO_URL,
-                caption=_["stream_1"].format(link, title[:23], duration_min, user_mention),
+                caption=_["stream_4"].format(title, link, duration_min, user_mention),
                 reply_markup=InlineKeyboardMarkup(button),
             )
             db[chat_id][0]["mystic"] = run
@@ -313,7 +320,7 @@ async def stream(
         vidid = result["vidid"]
         title = (result["title"]).title()
         thumbnail = result["thumb"]
-        duration_min = "Live Track"
+        duration_min = "00:00"
         status = True if video else None
         if await is_active_chat(chat_id):
             await put_queue(
@@ -330,8 +337,8 @@ async def stream(
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
             await app.send_message(
-                chat_id=original_chat_id,
-                text=_["queue_4"].format(position, title[:18], duration_min, user_mention),
+                original_chat_id,
+                _["queue_4"].format(position, title[:30], duration_min, user_mention),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
@@ -359,14 +366,14 @@ async def stream(
                 "video" if video else "audio",
                 forceplay=forceplay,
             )
-            img = await get_thumb(vidid)
+            img = await gen_thumb(vidid)
             button = stream_markup2(_, chat_id)
             run = await app.send_photo(
                 original_chat_id,
                 photo=img,
                 caption=_["stream_1"].format(
+                    title[:27],
                     f"https://t.me/{app.username}?start=info_{vidid}",
-                    title[:23],
                     duration_min,
                     user_mention,
                 ),
@@ -376,8 +383,8 @@ async def stream(
             db[chat_id][0]["markup"] = "tg"
     elif streamtype == "index":
         link = result
-        title = "ɪɴᴅᴇx ᴏʀ ᴍ3ᴜ8 ʟɪɴᴋ"
-        duration_min = "00:00"
+        title = "Index or M3u8 Link"
+        duration_min = "URL stream"
         if await is_active_chat(chat_id):
             await put_queue_index(
                 chat_id,
@@ -392,7 +399,7 @@ async def stream(
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
             await mystic.edit_text(
-                text=_["queue_4"].format(position, title[:27], duration_min, user_mention),
+                _["queue_4"].format(position, title[:30], duration_min, user_mention),
                 reply_markup=InlineKeyboardMarkup(button),
             )
         else:
