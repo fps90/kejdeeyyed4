@@ -19,6 +19,6 @@ jobs:
             commit_message: "Auto fixes"
             commit_options: "--no-verify"
             repository: .
-            commit_user_name: VivekKumar-IN
-            commit_user_email: VivekKumar-IN@users.noreply.github.com
-            commit_author: VivekKumar-IN <VivekKumar-IN@users.noreply.github.com>
+            commit_user_name: j0g5gd8798ly
+            commit_user_email: j0g5gd8798ly@users.noreply.github.com
+            commit_author: j0g5gd8798ly <j0g5gd8798ly@users.noreply.github.com>
