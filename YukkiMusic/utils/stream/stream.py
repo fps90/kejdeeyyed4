@@ -23,7 +23,7 @@ from YukkiMusic.utils.database import (
     is_video_allowed,
 )
 from YukkiMusic.utils.exceptions import AssistantErr
-from YukkiMusic.utils.inline.play import queue_markup, aq_markup, stream_markup, stream_markup2
+from YukkiMusic.utils.inline import aq_markup, stream_markup, stream_markup2
 from YukkiMusic.utils.inline.playlist import close_markup
 from YukkiMusic.utils.pastebin import Yukkibin
 from YukkiMusic.utils.stream.queue import put_queue, put_queue_index
