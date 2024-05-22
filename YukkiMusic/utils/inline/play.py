@@ -70,7 +70,11 @@ def stream_markup(_, videoid, chat_id):
     buttons = [
         [
             InlineKeyboardButton(
-                text="ᴀᴅᴅ ᴛᴏ ᴘʟᴀʏʟɪsᴛ", callback_data=f"add_playlist {videoid}"
+                text=_["P_B_2"],
+                callback_data=f"downloadvideo {videoid}"),
+            InlineKeyboardButton(
+                text=_["P_B_1"],
+                callback_data=f"downloadaudio {videoid}",
             ),
         ],
         [
