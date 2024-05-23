@@ -53,7 +53,7 @@ close_key = [
     [
         InlineKeyboardButton(
             text="زیادم بکە بۆ گرووپ یان کەناڵت ⚡️•",
-            url=f"https: // t.me / {viv.username}?startgroup = true",
+            url=f"https://t.me/{viv.username}?startgroup=true",
 ),
 ],
 ]
