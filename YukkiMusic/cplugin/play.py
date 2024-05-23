@@ -347,6 +347,7 @@ async def play(client, message: Message):
         await message.reply_photo(
             photo=imgt,
             caption=f"**✮ 𝐒ʈᴧʀʈ𝛆ɗ 𝐒ʈʀ𝛆ɑɱɩŋʛ ✮**\n\n**✮ 𝐓ɩttɭ𝛆 ✮** [{title[:27]}](https://t.me/{viv.username}?start=info_{videoid})\n**✬ 𝐃ʋɽɑʈɩσŋ ✮** `{duration}` ᴍɪɴ\n**✭ 𝐁ɣ ✮** {ruser}",
+            viv.mention,
             reply_markup=close_key,
         )
         await msg.delete()
