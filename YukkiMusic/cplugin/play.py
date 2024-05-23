@@ -101,9 +101,9 @@ class DurationLimitError(Exception):
     & ~filters.via_bot
 )
 async def play(client, message: Message):
-    msg = await message.reply_text("🔎")
+    msg = await message.reply_text("<b>⇜ دەگەڕێم بۆ گۆرانی داواکراو 🧑🏻‍💻⎋</b>")
     if len(message.command) < 2:
-        return await msg.edit_text("» ᴡʜᴀᴛ ᴅᴏ ʏᴏᴜ ᴡᴀɴɴᴀ ᴘʟᴀʏ ʙᴀʙʏ ?")
+        return await msg.edit_text("**» دەتەوێ چی پەخشبکەم ؟ **")
     vi = await app2.get_me()
     viv = await client.get_me()
     BOT_USERNAME = viv.username
@@ -117,11 +117,11 @@ async def play(client, message: Message):
             get = await client.get_chat_member(message.chat.id, vi.username)
         except ChatAdminRequired:
             return await msg.edit_text(
-                f"» ɪ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ɪɴᴠɪᴛᴇ ᴜsᴇʀs ᴠɪᴀ ʟɪɴᴋ ғᴏʀ ɪɴᴠɪᴛɪɴɢ {viv.mention} ᴀssɪsᴛᴀɴᴛ ᴛᴏ {message.chat.title}."
+                f"**» ڕۆڵم نییە بۆ بانگکردنی {viv.mention} یاریدەدەر بۆ {message.chat.title}**"
             )
         if get.status == ChatMemberStatus.BANNED:
             return await msg.edit_text(
-                text=f"» {viv.mention} ᴀssɪsᴛᴀɴᴛ ɪs ʙᴀɴɴᴇᴅ ɪɴ {message.chat.title}\n\n𖢵 ɪᴅ : `{vi.id}`\n𖢵 ɴᴀᴍᴇ : {vi.mention}\n𖢵 ᴜsᴇʀɴᴀᴍᴇ : @{vi.username}\n\nᴘʟᴇᴀsᴇ ᴜɴʙᴀɴ ᴛʜᴇ ᴀssɪsᴛᴀɴᴛ ᴀɴᴅ ᴘʟᴀʏ ᴀɢᴀɪɴ...",
+                text=f"**» یاریدەدەر {viv.mention} باندکراوە لە {message.chat.title}\n\n𖢵 ɪᴅ : `{vi.id}`\n𖢵 ɴᴀᴍᴇ : {vi.mention}\n𖢵 ᴜsᴇʀɴᴀᴍᴇ : @{vi.username}\n\nتکایە باندی لابە دواتر گۆرانی لێدە**",
             )
     except UserNotParticipant:
         if message.chat.username:
@@ -135,28 +135,28 @@ async def play(client, message: Message):
                 invitelink = await client.export_chat_invite_link(message.chat.id)
             except ChatAdminRequired:
                 return await msg.edit_text(
-                    f"» ɪ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ɪɴᴠɪᴛᴇ ᴜsᴇʀs ᴠɪᴀ ʟɪɴᴋ ғᴏʀ ɪɴᴠɪᴛɪɴɢ {viv.mention} ᴀssɪsᴛᴀɴᴛ ᴛᴏ {message.chat.title}."
+                    f"**» ڕۆڵم نییە بۆ بانگکردنی {viv.mention} یاریدەدەر بۆ {message.chat.title}**"
                 )
             except Exception as ex:
                 return await msg.edit_text(
-                    f"ғᴀɪʟᴇᴅ ᴛᴏ ɪɴᴠɪᴛᴇ {viv.mention} ᴀssɪsᴛᴀɴᴛ ᴛᴏ {message.chat.title}.\n\n**ʀᴇᴀsᴏɴ :** `{ex}`"
+                    f"**» شکستی هێنا لە بانگکردنی یاریدەدەری {viv.mention} بۆ {message.chat.title}.\n\nهۆکار :** `{ex}`"
                 )
         if invitelink.startswith("https://t.me/+"):
             invitelink = invitelink.replace("https://t.me/+", "https://t.me/joinchat/")
         anon = await msg.edit_text(
-            f"ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ...\n\nɪɴᴠɪᴛɪɴɢ {vi.mention} ᴛᴏ {message.chat.title}."
+            f"**» کەمێک چاوەڕێ بکە\n\nبانگی دەکەم {vi.mention} بۆ {message.chat.title}.**"
         )
         try:
             await app2.join_chat(invitelink)
             await asyncio.sleep(2)
             await msg.edit_text(
-                f"{vi.mention} ᴊᴏɪɴᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ,\n\nsᴛᴀʀᴛɪɴɢ sᴛʀᴇᴀᴍ..."
+                f"**» یاریدەدەر {vi.mention} بە سەرکەوتوویی جۆینی کرد\n\nگۆرانی لێبە**"
             )
         except UserAlreadyParticipant:
             pass
         except Exception as ex:
             return await msg.edit_text(
-                f"ғᴀɪʟᴇᴅ ᴛᴏ ɪɴᴠɪᴛᴇ {viv.mention} ᴀssɪsᴛᴀɴᴛ ᴛᴏ {message.chat.title}.\n\n**ʀᴇᴀsᴏɴ :** `{ex}`"
+                f"**» شکستی هێنا لە بانگکردنی یاریدەدەری {viv.mention} بۆ {message.chat.title}.\n\nهۆکار :** `{ex}`"
             )
         try:
             await app2.resolve_peer(invitelink)
@@ -172,7 +172,7 @@ async def play(client, message: Message):
     url = get_url(message)
     duration = None
     if audio:
-        if round(audio.duration / 60) > DURATION_LIMIT_MIN:
+        if round(audio.duration / 999999999999) > DURATION_LIMIT_MIN:
             raise DurationLimitError(
                 f"» sᴏʀʀʏ ʙᴀʙʏ, ᴛʀᴀᴄᴋ ʟᴏɴɢᴇʀ ᴛʜᴀɴ  {DURATION_LIMIT_MIN} ᴍɪɴᴜᴛᴇs ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ ᴏɴ {viv.mention}."
             )
@@ -194,20 +194,20 @@ async def play(client, message: Message):
             secmul, dur, dur_arr = 1, 0, duration.split(":")
             for i in range(len(dur_arr) - 1, -1, -1):
                 dur += int(dur_arr[i]) * secmul
-                secmul *= 60
+                secmul *= 999999999999
 
         except Exception as e:
             return await msg.edit_text(f"sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ\n\n**ᴇʀʀᴏʀ :** `{e}`")
 
-        if (dur / 60) > DURATION_LIMIT_MIN:
+        if (dur / 999999999999) > DURATION_LIMIT_MIN:
             return await msg.edit_text(
                 f"» sᴏʀʀʏ ʙᴀʙʏ, ᴛʀᴀᴄᴋ ʟᴏɴɢᴇʀ ᴛʜᴀɴ  {DURATION_LIMIT_MIN} ᴍɪɴᴜᴛᴇs ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ ᴏɴ {viv.mention}."
             )
         file_path = audio_dl(url)
     else:
         if len(message.command) < 2:
-            return await msg.edit_text("» ᴡʜᴀᴛ ᴅᴏ ʏᴏᴜ ᴡᴀɴɴᴀ ᴘʟᴀʏ ʙᴀʙʏ ?")
-        await msg.edit_text("» ᴘʀᴏᴄᴇssɪɴɢ, ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ...")
+            return await msg.edit_text("**» دەتەوێ چی پەخشبکەم ؟ **")
+        await msg.edit_text("**» کەمێک چاوەڕێ بکە ...**")
         query = message.text.split(None, 1)[1]
         try:
             results = YoutubeSearch(query, max_results=1).to_dict()
@@ -219,15 +219,15 @@ async def play(client, message: Message):
             secmul, dur, dur_arr = 1, 0, duration.split(":")
             for i in range(len(dur_arr) - 1, -1, -1):
                 dur += int(dur_arr[i]) * secmul
-                secmul *= 60
+                secmul *= 999999999999
 
         except Exception as e:
             logging.exception(str(e))
             return await msg.edit(
-                f"» ғᴀɪʟᴇᴅ ᴛᴏ ᴘʀᴏᴄᴇss ᴏ̨ᴜᴇʀʏ, ᴛʀʏ ᴘʟᴀʏɪɴɢ ᴀɢᴀɪɴ...\n{e}"
+                f"**» شکستی هێنا لە هێنانی داواکارییەکەت**\n{e}"
             )
 
-        if (dur / 60) > DURATION_LIMIT_MIN:
+        if (dur / 999999999999) > DURATION_LIMIT_MIN:
             return await msg.edit(
                 f"» sᴏʀʀʏ ʙᴀʙʏ, ᴛʀᴀᴄᴋ ʟᴏɴɢᴇʀ ᴛʜᴀɴ  {DURATION_LIMIT_MIN} ᴍɪɴᴜᴛᴇs ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ ᴏɴ {viv.mention}."
             )
@@ -247,7 +247,8 @@ async def play(client, message: Message):
             imgp = await gen_thumb(videoid)
             await message.reply_photo(
                 photo=imgp,
-                caption=f"**✮ 𝐒ʈᴧʀʈ𝛆ɗ 𝐒ʈʀ𝛆ɑɱɩŋʛ ✮**\n\n**✮ 𝐓ɩttɭ𝛆 ✮** [{title[:27]}](https://t.me/{viv.username}?start=info_{videoid})\n**✬ 𝐃ʋɽɑʈɩσŋ ✮** `{duration}` ᴍɪɴ\n**✭ 𝐁ɣ ✮** {ruser}",
+                caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
+                viv.mention,
                 reply_markup=close_key,
             )
             await msg.delete()
@@ -261,25 +262,25 @@ async def play(client, message: Message):
 
             except NoActiveGroupCall:
                 return await msg.edit_text(
-                    "**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+                    "<b>•⎆┊سەرەتا تێل بکەوە لە گرووپ</b>"
                 )
             except TelegramServerError:
                 return await msg.edit_text(
-                    "» ᴛᴇʟᴇɢʀᴀᴍ ɪs ʜᴀᴠɪɴɢ sᴏᴍᴇ ɪɴᴛᴇʀɴᴀʟ ᴘʀᴏʙʟᴇᴍs, ᴘʟᴇᴀsᴇ ʀᴇsᴛᴀʀᴛ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ."
+                    "<b>•⎆┊هەڵەیەك لە سێرڤەری تێلەگرام\n\nتێلەگرام هەندێك کێشەی ناوەکی هەیە، تکایە تێل دابخە و دووبارە بیکەوە لە گرووپت♥️•</b>"
                 )
             except UnMuteNeeded:
                 return await msg.edit_text(
-                    f"» {viv.mention} ᴀssɪsᴛᴀɴᴛ ɪs ᴍᴜᴛᴇᴅ ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ,\n\nᴘʟᴇᴀsᴇ ᴜɴᴍᴜᴛᴇ {vi.mention} ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɴᴅ ᴛʀʏ ᴘʟᴀʏɪɴɢ ᴀɢᴀɪɴ."
+                    f"**» یاریدەدەر {viv.mention} میوتە لە تیل\n\nتکایە میوتی {vi.mention} لابە دواتر تێلکەوە**"
                 )
             except AlreadyJoinedError or ConnectionError:
                 return await msg.edit_text(
-                    f"ᴍᴜsɪᴄ ɪs ᴀʟʀᴇᴀᴅʏ ᴘʟᴀʏɪɴɢ ʙʏ ᴍᴀɪɴ ʙᴏᴛ ᴏʀ ᴀɴʏ ᴄʟᴏɴᴇᴅ ʙᴏᴛ"
+                    f"<b>•⎆┊یاریدەدەر لە تێلە\n\n دواتر دووبارە گەڕان بۆ گۆرانی بکە♥️•</b>"
                 )
 
             except Exception as e:
                 if "phone.CreateGroupCall" in str(e):
                     return await msg.edit_text(
-                        "**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+                        "**» تێلی چالاک نییە**\n\n**تکایە دڵنیابە تێلت کردۆتەوە**"
                     )
                 else:
                     return await msg.edit_text(
@@ -290,7 +291,8 @@ async def play(client, message: Message):
             await add_active_chat(message.chat.id)
             await message.reply_photo(
                 photo=imgt,
-                caption=f"**✮ 𝐒ʈᴧʀʈ𝛆ɗ 𝐒ʈʀ𝛆ɑɱɩŋʛ ✮**\n\n**✮ 𝐓ɩttɭ𝛆 ✮** [{title[:27]}](https://t.me/{viv.username}?start=info_{videoid})\n**✬ 𝐃ʋɽɑʈɩσŋ ✮** `{duration}` ᴍɪɴ\n**✭ 𝐁ɣ ✮** {ruser}",
+                caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
+                viv.mention,
                 reply_markup=close_key,
             )
             await msg.delete()
@@ -300,7 +302,7 @@ async def play(client, message: Message):
             await pytgcalls.leave_call(message.chat.id)
             if "phone.CreateGroupCall" in str(e):
                 return await msg.edit_text(
-                    "**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+                    "**» تێلی چالاک نییە**\n\n**تکایە دڵنیابە تێلت کردۆتەوە**"
                 )
             else:
                 return await msg.edit_text(
@@ -317,24 +319,24 @@ async def play(client, message: Message):
 
         except NoActiveGroupCall:
             return await msg.edit_text(
-                "**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+                "<b>•⎆┊سەرەتا تێل بکەوە لە گرووپ</b>"
             )
         except TelegramServerError:
             return await msg.edit_text(
-                "» ᴛᴇʟᴇɢʀᴀᴍ ɪs ʜᴀᴠɪɴɢ sᴏᴍᴇ ɪɴᴛᴇʀɴᴀʟ ᴘʀᴏʙʟᴇᴍs, ᴘʟᴇᴀsᴇ ʀᴇsᴛᴀʀᴛ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ."
+                "<b>•⎆┊هەڵەیەك لە سێرڤەری تێلەگرام\n\nتێلەگرام هەندێك کێشەی ناوەکی هەیە، تکایە تێل دابخە و دووبارە بیکەوە لە گرووپت♥️•</b>"
             )
         except UnMuteNeeded:
             return await msg.edit_text(
-                f"» {viv.mention} ᴀssɪsᴛᴀɴᴛ ɪs ᴍᴜᴛᴇᴅ ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ,\n\nᴘʟᴇᴀsᴇ ᴜɴᴍᴜᴛᴇ {vi.mention} ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɴᴅ ᴛʀʏ ᴘʟᴀʏɪɴɢ ᴀɢᴀɪɴ."
+                f"**» یاریدەدەر {viv.mention} میوتە لە تیل\n\nتکایە میوتی {vi.mention} لابە دواتر تێلکەوە**"
             )
         except AlreadyJoinedError or ConnectionError:
             return await msg.edit_text(
-                f"ᴍᴜsɪᴄ ɪs ᴀʟʀᴇᴀᴅʏ ᴘʟᴀʏɪɴɢ ʙʏ ᴍᴀɪɴ ʙᴏᴛ ᴏʀ ᴀɴʏ ᴄʟᴏɴᴇᴅ ʙᴏᴛ"
+                f"<b>•⎆┊یاریدەدەر لە تێلە\n\n دواتر دووبارە گەڕان بۆ گۆرانی بکە♥️•</b>"
             )
         except Exception as e:
             if "phone.CreateGroupCall" in str(e):
                 return await msg.edit_text(
-                    "**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+                    "**» تێلی چالاک نییە**\n\n**تکایە دڵنیابە تێلت کردۆتەوە**"
                 )
             else:
                 logging.exception(e)
@@ -346,7 +348,7 @@ async def play(client, message: Message):
         await add_active_chat(message.chat.id)
         await message.reply_photo(
             photo=imgt,
-            caption=f"**✮ 𝐒ʈᴧʀʈ𝛆ɗ 𝐒ʈʀ𝛆ɑɱɩŋʛ ✮**\n\n**✮ 𝐓ɩttɭ𝛆 ✮** [{title[:27]}](https://t.me/{viv.username}?start=info_{videoid})\n**✬ 𝐃ʋɽɑʈɩσŋ ✮** `{duration}` ᴍɪɴ\n**✭ 𝐁ɣ ✮** {ruser}",
+            caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
             viv.mention,
             reply_markup=close_key,
         )
