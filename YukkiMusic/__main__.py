@@ -25,8 +25,7 @@ from YukkiMusic.utils.database import get_banned_users, get_gbanned
 from YukkiMusic.utils.decorators.language import LanguageStart
 from YukkiMusic.utils.inlinefunction import paginate_modules
 from YukkiMusic.utils.inline import private_panel
-
-# from YukkiMusic.plugins.tools.clone import restart_bots
+from YukkiMusic.plugins.tools.clone import restart_bots
 
 loop = asyncio.get_event_loop_policy().get_event_loop()
 HELPABLE = {}
@@ -65,7 +64,7 @@ async def init():
             if hasattr(imported_module, "__HELP__") and imported_module.__HELP__:
                 HELPABLE[imported_module.__MODULE__.lower()] = imported_module
     LOGGER("Yukkimusic.plugins").info("Successfully Imported Modules ")
-    # await restart_bots()
+    await restart_bots()
     await userbot.start()
     await Yukki.start()
     await Yukki.decorators()
