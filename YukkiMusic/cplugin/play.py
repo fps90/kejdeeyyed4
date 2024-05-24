@@ -41,7 +41,7 @@ import config
 from config import DURATION_LIMIT_MIN
 from YukkiMusic.misc import clonedb
 from YukkiMusic.cplugin.utils import add_active_chat, is_active_chat, stream_on
-from YukkiMusic.cplugin.utils.inline import stream_markup
+from .utils.inline import stream_markup
 from YukkiMusic.utils.downloaders import audio_dl
 from YukkiMusic.utils.thumbnails import gen_qthumb
 from YukkiMusic.utils.thumbnails import gen_thumb
