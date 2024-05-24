@@ -33,7 +33,7 @@ async def get_group_call(
     await app.send_message(f"**هیچ تێلێك لە گرووپ نەکراوەتەوە** {err_msg}")
     return False
 
-@app.on_message(command(["/open", "کردنەوەی تێل", "کردنەوەی تیل"]) & admin_filter & ~filters.private)
+@app.on_message(filters.command(["/open", "کردنەوەی تێل", "کردنەوەی تیل"],"") & admin_filter & ~filters.private)
 async def start_group_call(c: Client, m: Message):
     chat_id = m.chat.id
     assistant = await get_assistant(chat_id)
