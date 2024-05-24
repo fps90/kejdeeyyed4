@@ -170,7 +170,7 @@ async def stream(
             )
             qimg = await gen_qthumb(vidid)
             position = len(db.get(chat_id)) - 1
-            button = aq_markup(_, vidid, chat_id)
+            button = aq_markup(_, chat_id)
             run = await app.send_photo(
                 original_chat_id,
                 photo=qimg,
