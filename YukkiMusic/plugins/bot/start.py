@@ -48,15 +48,145 @@ from YukkiMusic.utils.inline import (
     start_pannel,
 )
 from YukkiMusic.utils.functions import MARKDOWN, WELCOMEHELP
+from YukkiMusic.utils.database import get_assistant
+from YukkiMusic.utils.extraction import extract_user
+
+# Define a dictionary to track the last message timestamp for each user
+user_last_message_time = {}
+user_command_count = {}
+# Define the threshold for command spamming (e.g., 20 commands within 60 seconds)
+SPAM_THRESHOLD = 2
+SPAM_WINDOW_SECONDS = 5
 
 
+IQ_PICS = [
+"https://graph.org/file/9340f44e4a181b18ac663.jpg",
+"https://graph.org/file/50037e072302b4eff55ba.jpg",
+"https://graph.org/file/39f39cf6c6c68170f6bf2.jpg",
+"https://graph.org/file/abf9931642773bc27ad7f.jpg",
+"https://graph.org/file/60764ec9d2b1fda50c2d1.jpg",
+"https://graph.org/file/a90c116b776c90d58f5e8.jpg",
+"https://graph.org/file/b2822e1b60e62caa43ceb.jpg",
+"https://graph.org/file/84998ca9871e231df0897.jpg",
+"https://graph.org/file/6c5493fd2f6c403486450.jpg",
+"https://graph.org/file/9dd91a4a794f15e5dadb3.jpg",
+"https://graph.org/file/0a2fb6e502f6c9b6a04ac.jpg",
+"https://graph.org/file/774380facd73524f27d26.jpg"
+
+]
+
+IQ_VIDS = [
+"https://telegra.ph/file/79055663111eaa8824b26.mp4",
+"https://telegra.ph/file/96b75e112896a00c47203.mp4",
+"https://telegra.ph/file/f35b4a68ec793efe46c7c.mp4",
+"https://graph.org/file/d55b419cf02dfcdd5a2b8.mp4",
+"https://graph.org/file/cfa01d6254cfa3b6fd945.mp4",
+"https://telegra.ph/file/b61c1ce580957e936d8fb.mp4",
+"https://telegra.ph/file/f2aec19f7387741798fa8.mp4",
+"https://telegra.ph/file/e13f1c42b949221f87e77.mp4"
+
+]
+
+emoji = [
+    "👍",
+    "❤",
+    "🔥",
+    "🥰",
+    "👏",
+    "😁",
+    "🤔",
+    "🤯",
+    "😱",
+    "😢",
+    "🎉",
+    "🤩",
+    "🤮",
+    "💩",
+    "🙏",
+    "👌",
+    "🕊",
+    "🤡",
+    "🥱",
+    "🥴",
+    "😍",
+    "🐳",
+    "❤",
+    "‍🔥",
+    "🌚",
+    "🌭",
+    "💯",
+    "🤣",
+    "⚡",
+    "🏆",
+    "💔",
+    "🤨",
+    "😐",
+    "🍓",
+    "🍾",
+    "💋",
+    "😈",
+    "😴",
+    "😭",
+    "🤓",
+    "👻",
+    "👨‍💻",
+    "👀",
+    "🎃",
+    "🙈",
+    "😇",
+    "😨",
+    "🤝",
+    "✍",
+    "🤗",
+    "🫡",
+    "🎅",
+    "🎄",
+    "☃",
+    "💅",
+    "🤪",
+    "🗿",
+    "🆒",
+    "💘",
+    "🙉",
+    "🦄",
+    "😘",
+    "💊",
+    "🙊",
+    "😎",
+    "👾",
+    "🤷‍♂",
+    "🤷",
+    "🤷‍♀",
+    "😡",
+]
 loop = asyncio.get_running_loop()
-
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_comm(client, message: Message, _):
+    user_id = message.from_user.id
     chat_id = message.chat.id
+    message_id = message.id
+    current_time = time()
+    # Update the last message timestamp for the user
+    last_message_time = user_last_message_time.get(user_id, 0)
+
+    if current_time - last_message_time < SPAM_WINDOW_SECONDS:
+        # If less than the spam window time has passed since the last message
+        user_last_message_time[user_id] = current_time
+        user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
+        if user_command_count[user_id] > SPAM_THRESHOLD:
+            # Block the user if they exceed the threshold
+            await app.send_reaction(chat_id, message_id, random.choice(emoji))
+            hu = await message.reply_text(f"**🧑🏻‍💻┋ {message.from_user.mention} بۆت سپام مەکە بەڕێز\n🧑🏻‍💻┋ پێنج چرکە بوەستە**")
+            await asyncio.sleep(3)
+            await hu.delete()
+            return 
+    else:
+        # If more than the spam window time has passed, reset the command count and update the message timestamp
+        user_command_count[user_id] = 1
+        user_last_message_time[user_id] = current_time
+    await app.send_reaction(chat_id, message_id, random.choice(emoji))
     await add_served_user(message.from_user.id)
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
@@ -67,22 +197,27 @@ async def start_comm(client, message: Message, _):
                     caption=_["help_1"],
                     reply_markup=help_mark,
                 )
+                await app.send_reaction(chat_id, message_id, random.choice(emoji))
             else:
                 return await message.reply_photo(
-                    photo=choice(PHOTO),
+                    random.choice(IQ_PICS),
                     caption=_["help_1"],
                     reply_markup=keyboard,
                 )
+                await app.send_reaction(chat_id, message_id, random.choice(emoji))
         if name[0:4] == "song":
+            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             await message.reply_text(_["song_2"])
             return
         if name == "mkdwn_help":
+            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             await message.reply(
                 MARKDOWN,
                 parse_mode=ParseMode.HTML,
                 disable_web_page_preview=True,
             )
         if name == "greetings":
+            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             await message.reply(
                 WELCOMEHELP,
                 parse_mode=ParseMode.HTML,
@@ -90,6 +225,7 @@ async def start_comm(client, message: Message, _):
             )
 
         if name[0:3] == "sta":
+            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             m = await message.reply_text("🔎 ғᴇᴛᴄʜɪɴɢ ʏᴏᴜʀ ᴘᴇʀsᴏɴᴀʟ sᴛᴀᴛs.!")
             stats = await get_userss(message.from_user.id)
             tot = len(stats)
@@ -143,6 +279,7 @@ async def start_comm(client, message: Message, _):
         if name[0:3] == "sud":
             await sudoers_list(client=client, message=message, _=_)
             await asyncio.sleep(1)
+            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             if await is_on_off(config.LOG):
                 return await app.send_message(
                     config.LOG_GROUP_ID,
@@ -157,6 +294,7 @@ async def start_comm(client, message: Message, _):
                 await Telegram.send_split_text(message, lyrics)
                 return
             else:
+                
                 await message.reply_text("ғᴀɪʟᴇᴅ ᴛᴏ ɢᴇᴛ ʟʏʀɪᴄs.")
                 return
         if name[0:3] == "del":
@@ -208,7 +346,8 @@ async def start_comm(client, message: Message, _):
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=key,
             )
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
+            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             if await is_on_off(config.LOG):
                 return await app.send_message(
                     config.LOG_GROUP_ID,
@@ -223,20 +362,23 @@ async def start_comm(client, message: Message, _):
         out = private_panel(_, app.username, OWNER)
         if config.START_IMG_URL:
             try:
+                await app.send_reaction(chat_id, message_id, random.choice(emoji))
                 await message.reply_photo(
                     photo=config.START_IMG_URL,
                     caption=_["start_2"].format(app.mention),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
             except:
+                await app.send_reaction(chat_id, message_id, random.choice(emoji))
                 await message.reply_photo(
-                    photo=choice(PHOTO),
+                    random.choice(IQ_PICS),
                     caption=_["start_2"].format(app.mention),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
         else:
+            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             await message.reply_photo(
-                photo=choice(PHOTO),
+                random.choice(IQ_PICS),
                 caption=_["start_2"].format(app.mention),
                 reply_markup=InlineKeyboardMarkup(out),
             )
@@ -250,22 +392,66 @@ async def start_comm(client, message: Message, _):
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def testbot(client, message: Message, _):
+    user_id = message.from_user.id
+    chat_id = message.chat.id
+    message_id = message.id
+    current_time = time()
+    
+    # Update the last message timestamp for the user
+    last_message_time = user_last_message_time.get(user_id, 0)
+
+    if current_time - last_message_time < SPAM_WINDOW_SECONDS:
+        # If less than the spam window time has passed since the last message
+        user_last_message_time[user_id] = current_time
+        user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
+        if user_command_count[user_id] > SPAM_THRESHOLD:
+            # Block the user if they exceed the threshold
+            await app.send_reaction(chat_id, message_id, random.choice(emoji))
+            hu = await message.reply_text(f"**🧑🏻‍💻┋ {message.from_user.mention} بۆت سپام مەکە بەڕێز\n🧑🏻‍💻┋ پێنج چرکە بوەستە**")
+            await asyncio.sleep(3)
+            await hu.delete()
+            return 
+    else:
+        # If more than the spam window time has passed, reset the command count and update the message timestamp
+        user_command_count[user_id] = 1
+        user_last_message_time[user_id] = current_time
+        
     out = alive_panel(_)
     uptime = int(time.time() - _boot_)
     chat_id = message.chat.id
     if config.START_IMG_URL:
+        await app.send_reaction(chat_id, message_id, random.choice(emoji))
         await message.reply_photo(
             photo=config.START_IMG_URL,
             caption=_["start_8"].format(app.mention, get_readable_time(uptime)),
             reply_markup=InlineKeyboardMarkup(out),
         )
     else:
-        await message.reply_photo(
-            photo=choice(PHOTO),
-            caption=_["start_8"].format(app.mention, get_readable_time(uptime)),
-            reply_markup=InlineKeyboardMarkup(out),
-        )
-    return await add_served_chat(message.chat.id)
+        await app.send_reaction(chat_id, message_id, random.choice(emoji))
+        await message.reply_video(
+        random.choice(IQ_VIDS),
+        caption=_["start_8"].format(app.mention, get_readable_time(uptime)),
+        reply_markup=InlineKeyboardMarkup(out),
+    )
+    await add_served_chat(message.chat.id)
+    
+# Check if Userbot is already in the group
+    try:
+        userbot = await get_assistant(message.chat.id)
+        message = await message.reply_text(f"**🧑🏻‍💻┋ پشکنین بۆ [یاریدەدەرەکەم](tg://openmessage?user_id={userbot.id}) لە گرووپە یان نا •**")
+        is_userbot = await app.get_chat_member(message.chat.id, userbot.id)
+        if is_userbot:
+            await message.edit_text(f"**🧑🏻‍💻┋ [یاریدەدەرەکەم](tg://openmessage?user_id={userbot.id}) لە گرووپە ئێستا دەتوانی گەڕان بکەیت بۆ گۆرانی •**")
+    except Exception as e:
+        # Userbot is not in the group, invite it
+        try:
+            await message.edit_text(f"**🧑🏻‍💻┋ [یاریدەدەرەکەم](tg://openmessage?user_id={userbot.id}) لە گرووپ نییە بانگهێشتی دەکەم ..**")
+            invitelink = await app.export_chat_invite_link(message.chat.id)
+            await asyncio.sleep(1)
+            await userbot.join_chat(invitelink)
+            await message.edit_text(f"**🧑🏻‍💻┋ [یاریدەدەرەکەم](tg://openmessage?user_id={userbot.id}) لە گرووپە ئێستا دەتوانی گەڕان بکەیت بۆ گۆرانی •**")
+        except Exception as e:
+            await message.edit_text(f"**🧑🏻‍💻┋ ناتوانم [یاریدەدەرەکەم](tg://openmessage?user_id={userbot.id}) بانگهێشت بکەم\nبمکە ئەدمین تاوەکو بتوانم زیادی بکەم •**")
 
 
 @app.on_message(filters.new_chat_members, group=-1)
@@ -295,11 +481,36 @@ async def welcome(client, message: Message):
                         )
                     )
                     return await app.leave_chat(chat_id)
+                    
                 userbot = await get_assistant(message.chat.id)
                 out = start_pannel(_)
-                await message.reply_text(
-                    _["start_3"].format(
+                chid = message.chat.id
+                
+                try:
+                    userbot = await get_assistant(message.chat.id)
+    
+                    chid = message.chat.id
+                    
+                    
+                    if message.chat.username:
+                        await userbot.join_chat(f"**{message.chat.username}**")
+                        await message.reply_text(f"**🧑🏻‍💻┋ [یاریدەدەرەکەم](tg://openmessage?user_id={userbot.id}) هاتە گرووپەوە بەهۆی یوزەری گرووپ •**")
+                    else:
+                        invitelink = await app.export_chat_invite_link(chid)
+                        await asyncio.sleep(1)
+                        messages = await message.reply_text(f"**🧑🏻‍💻┋ [یاریدەدەرەکەم](tg://openmessage?user_id={userbot.id}) جۆین دەکات بە بەکارهێنانی لینك •**")
+                        await userbot.join_chat(invitelink)
+                        await messages.delete()
+                        await message.reply_text(f"**🧑🏻‍💻┋ [یاریدەدەرەکەم](tg://openmessage?user_id={userbot.id}) هاتە گرووپەوە بەهۆی لینکی گرووپ •**")
+                except Exception as e:
+                    await message.edit_text(f"**🧑🏻‍💻┋ تکایە بمکە ئەدمین بۆ بانگهێشت کردنی [یاریدەدەرەکەم](tg://openmessage?user_id={userbot.id}) بۆ گرووپ •**")
+
+                await message.reply_video(
+                    random.choice(IQ_VIDS),
+                    caption=_["start_3"].format(
+                        message.from_user.mentoin,
                         app.mention,
+                        message.chat.title,
                         userbot.username,
                         userbot.id,
                     ),
