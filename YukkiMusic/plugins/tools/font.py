@@ -5,7 +5,7 @@ from YukkiMusic import app
 from YukkiMusic.utils.font_string import Fonts
 
 
-@app.on_message(filters.command(["font", "fonts"]))
+@app.on_message(filters.command(["font", "fonts", "فۆنت"]))
 async def style_buttons(c, m, cb=False):
     text = m.text.split(" ", 1)[1]
     buttons = [
@@ -45,8 +45,8 @@ async def style_buttons(c, m, cb=False):
             InlineKeyboardButton("S̑̈ȃ̈d̑̈", callback_data="style+sad"),
         ],
         [
-            InlineKeyboardButton("ᴄʟᴏsᴇ", callback_data="close_reply"),
-            InlineKeyboardButton("ɴᴇxᴛ ➻", callback_data="nxt"),
+            InlineKeyboardButton("داخستن", callback_data="close_reply"),
+            InlineKeyboardButton("دواتر ➻", callback_data="nxt"),
         ],
     ]
     if not cb:
@@ -93,8 +93,8 @@ async def nxt(c, m):
                 InlineKeyboardButton("F༙r༙o༙z༙e༙n༙", callback_data="style+frozen"),
             ],
             [
-                InlineKeyboardButton("ᴄʟᴏsᴇ", callback_data="close_reply"),
-                InlineKeyboardButton("ʙᴀᴄᴋ", callback_data="nxt+0"),
+                InlineKeyboardButton("داخستن", callback_data="close_reply"),
+                InlineKeyboardButton("گەڕانەوە", callback_data="nxt+0"),
             ],
         ]
         await m.answer()
