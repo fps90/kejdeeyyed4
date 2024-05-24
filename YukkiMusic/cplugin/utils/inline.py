@@ -27,8 +27,7 @@ buttons = InlineKeyboardMarkup(
 )
 
 
-def stream_markup(_, videoid):
-    buttons  = [
+    strem1  = [
 
     [
 
