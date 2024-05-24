@@ -89,7 +89,7 @@ async def start_group_call(c: Client, m: Message):
       except:
          await msg.edit_text("•⎆┊**با بۆتەکە ڕۆڵی ئەوەی هەبێت کە ئەدمین زیاد بکات و کۆنترۆڵی تێل بکات یان ڕێگە بە یاریدەدەرەکە بدات و هەوڵ بدات🕷•**")
         
-@app.on_message(command(["/close", "داخستنی تێل", "داخستنی تیل"]) & admin_filter & ~filters.private)
+@app.on_message(filters.command(["/close", "داخستنی تێل", "داخستنی تیل"],"") & admin_filter & ~filters.private)
 async def stop_group_call(c: Client, m: Message):
     chat_id = m.chat.id
     assistant = await get_assistant(chat_id)
