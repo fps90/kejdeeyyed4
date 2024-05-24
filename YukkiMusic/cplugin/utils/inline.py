@@ -25,7 +25,9 @@ buttons = InlineKeyboardMarkup(
     ]
 )
 
-close_key = [
+
+def stream_markup(_, videoid):
+    buttons  = [
 
     [
 
