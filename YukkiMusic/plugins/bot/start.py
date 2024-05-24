@@ -10,6 +10,7 @@
 import asyncio
 from random import choice
 import time
+import random
 from time import time
 from pyrogram import filters
 from pyrogram.enums import ChatType, ParseMode
@@ -27,6 +28,7 @@ from config.config import OWNER_ID
 from strings import get_string
 from YukkiMusic import Telegram, YouTube, app
 from YukkiMusic.misc import SUDOERS, _boot_
+from YukkiMusic.utils import bot_up_time
 from YukkiMusic.plugins.play.playlist import del_plist_msg
 from YukkiMusic.plugins.sudo.sudoers import sudoers_list
 from YukkiMusic.utils.database import (
@@ -391,7 +393,7 @@ async def start_comm(client, message: Message, _):
 
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
-async def testbot(client, message: Message, _):
+async def start_gp(client, message: Message, _):
     user_id = message.from_user.id
     chat_id = message.chat.id
     message_id = message.id
@@ -417,25 +419,16 @@ async def testbot(client, message: Message, _):
         user_last_message_time[user_id] = current_time
         
     out = alive_panel(_)
-    uptime = int(time.time() - _boot_)
-    chat_id = message.chat.id
-    if config.START_IMG_URL:
-        await app.send_reaction(chat_id, message_id, random.choice(emoji))
-        await message.reply_photo(
-            photo=config.START_IMG_URL,
-            caption=_["start_8"].format(app.mention, get_readable_time(uptime)),
-            reply_markup=InlineKeyboardMarkup(out),
-        )
-    else:
-        await app.send_reaction(chat_id, message_id, random.choice(emoji))
-        await message.reply_video(
+    BOT_UP = await bot_up_time()
+    await app.send_reaction(chat_id, message_id, random.choice(emoji))
+    await message.reply_video(
         random.choice(IQ_VIDS),
-        caption=_["start_8"].format(app.mention, get_readable_time(uptime)),
+        caption=_["start_8"].format(app.mention, BOT_UP),
         reply_markup=InlineKeyboardMarkup(out),
     )
     await add_served_chat(message.chat.id)
     
-# Check if Userbot is already in the group
+    # Check if Userbot is already in the group
     try:
         userbot = await get_assistant(message.chat.id)
         message = await message.reply_text(f"**🧑🏻‍💻┋ پشکنین بۆ [یاریدەدەرەکەم](tg://openmessage?user_id={userbot.id}) لە گرووپە یان نا •**")
