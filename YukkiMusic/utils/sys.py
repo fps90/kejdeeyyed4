@@ -27,3 +27,9 @@ async def bot_sys_stats():
     RAM = f"{mem}%"
     DISK = f"{disk}%"
     return UP, CPU, RAM, DISK
+
+
+async def bot_up_time():
+    bot_up_time = int(time.time() - _boot_)
+    BOT_UP = f"{get_readable_time(bot_up_time)}"
+    return BOT_UP
