@@ -41,6 +41,7 @@ import config
 from config import DURATION_LIMIT_MIN
 from YukkiMusic.misc import clonedb
 from YukkiMusic.cplugin.utils import add_active_chat, is_active_chat, stream_on
+from YukkiMusic.cplugin.utils.inline import stream_markup
 from YukkiMusic.utils.downloaders import audio_dl
 from YukkiMusic.utils.thumbnails import gen_qthumb
 from YukkiMusic.utils.thumbnails import gen_thumb
@@ -245,11 +246,12 @@ async def play(client, message: Message):
                 stream,
             )
             imgp = await gen_thumb(videoid)
+            button = stream_markup(_, videoid)
             await message.reply_photo(
                 photo=imgp,
                 caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
                 viv.mention,
-                reply_markup=close_key,
+                reply_markup==InlineKeyboardMarkup(button),
             )
             await msg.delete()
         except NotInCallError:
@@ -287,13 +289,14 @@ async def play(client, message: Message):
                         f"sᴏᴍᴇ ᴇxᴄᴇᴘᴛɪᴏɴ ᴏᴄᴄᴜʀᴇᴅ ᴡʜᴇɴ ᴘʀᴏᴄᴇssɪɴɢ\n {e}"
                     )
             imgt = await gen_thumb(videoid)
+            button = stream_markup(_, videoid)
             await stream_on(message.chat.id)
             await add_active_chat(message.chat.id)
             await message.reply_photo(
                 photo=imgt,
                 caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
                 viv.mention,
-                reply_markup=close_key,
+                reply_markup==InlineKeyboardMarkup(button),
             )
             await msg.delete()
 
@@ -344,12 +347,13 @@ async def play(client, message: Message):
                     f"sᴏᴍᴇ ᴇxᴄᴇᴘᴛɪᴏɴ ᴏᴄᴄᴜʀᴇᴅ ᴡʜᴇɴ ᴘʀᴏᴄᴇssɪɴɢ\n {e}"
                 )
         imgt = await gen_thumb(videoid)
+        button = stream_markup(_, videoid)
         await stream_on(message.chat.id)
         await add_active_chat(message.chat.id)
         await message.reply_photo(
             photo=imgt,
             caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
             viv.mention,
-            reply_markup=close_key,
+            reply_markup==InlineKeyboardMarkup(button),
         )
         await msg.delete()
