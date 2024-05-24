@@ -26,8 +26,7 @@ psutil
 pytube
 pykeyboard
 py-tgcalls==2.0.1
-#pyrogram
-pyrofork
+pyrogram
 python-dotenv
 pyyaml
 requests
@@ -39,10 +38,11 @@ telegraph==2.2.0
 tgcrypto
 urllib3
 yt-dlp
-youtube-search-python
+#youtube-search-python
 #youtube_search
-#git+https://github.com/alexmercerind/youtube-search-python@main
+git+https://github.com/alexmercerind/youtube-search-python@main
 git+https://github.com/joetats/youtube_search@master
 uuid==1.30
 SafoneAPI
+git+https://github.com/Vivekkumar-IN/External-Plugins@main
 wget
