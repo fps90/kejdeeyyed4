@@ -24,7 +24,6 @@ from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
 
 # Commands
-SKIP_COMMAND = get_command("SKIP_COMMAND")
 
 
 @app.on_message(
