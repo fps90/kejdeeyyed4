@@ -10,7 +10,7 @@
 
 from pyrogram import filters
 from pyrogram.types import Message
-
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from config import PK
 from strings import get_command
 from YukkiMusic import app
@@ -29,7 +29,7 @@ ACTIVEVIDEO_COMMAND = get_command("ACTIVEVIDEO_COMMAND")
 async def activevc(_, message: Message):
     if message.from_user.id not in SUDOERS:
         return await message.reply_text(
-            "sᴏʀʀʏ sɪʀ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴏɴʟʏ ғᴏʀ ʙᴏᴛ ᴍᴀɪɴᴛᴇɴᴀɴᴀʀ's"
+            "<b>✫ ببورە ئەزیزم ئەم فەرمانە تەنیا بۆ گەشەپێدەرە</b>"
         )
     mystic = await message.reply_text(
         "ɢᴇᴛᴛɪɴɢ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ....ᴘʟᴇᴀsᴇ ʜᴏʟᴅ ᴏɴ", protect_content=PK
@@ -61,7 +61,7 @@ async def activevc(_, message: Message):
 async def activevi_(_, message: Message):
     if message.from_user.id not in SUDOERS:
         return await message.reply_text(
-            "sᴏʀʀʏ sɪʀ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴏɴʟʏ ғᴏʀ ʙᴏᴛ ᴍᴀɪɴᴛᴇɴᴀɴᴀʀ's"
+            "<b>✫ ببورە ئەزیزم ئەم فەرمانە تەنیا بۆ گەشەپێدەرە</b>"
         )
     mystic = await message.reply_text(
         "ɢᴇᴛᴛɪɴɢ ᴀᴄᴛɪᴠᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ....ᴘʟᴇᴀsᴇ ʜᴏʟᴅ ᴏɴ", protect_content=PK
@@ -89,17 +89,16 @@ async def activevi_(_, message: Message):
         )
 
 
-@app.on_message(filters.command(["ac"]))
+@app.on_message(filters.command(["/ac","/av","چالاکی پەخش"], ""))
 async def vc(client, message: Message):
     if message.from_user.id not in SUDOERS:
         return await message.reply_text(
-            "sᴏʀʀʏ sɪʀ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴏɴʟʏ ғᴏʀ ʙᴏᴛ ᴍᴀɪɴᴛᴇɴᴀɴᴀʀ's"
+            "<b>✫ ببورە ئەزیزم ئەم فەرمانە تەنیا بۆ گەشەپێدەرە</b>"
         )
     ac_audio = str(len(await get_active_chats()))
     ac_video = str(len(await get_active_video_chats()))
     await message.reply_text(
-        f"✫ <b><u>ᴀᴄᴛɪᴠᴇ ᴄʜᴀᴛs ɪɴғᴏ</u></b> :\n\nᴠᴏɪᴄᴇ : {ac_audio}\nᴠɪᴅᴇᴏ  : {ac_video}"
-    )
+        f"<b>✫ زانیاری چالاکی پەخشکردن :</b>\n\n<b>دەنگی : {ac_audio}\nڤیدیۆ : {ac_video}</b>", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('✯ داخستن ✯', callback_data=f"close")]]))
 
 
 __MODULE__ = "Acᴛɪᴠᴇᴠᴄ"
