@@ -54,8 +54,8 @@ def stream_markup(_, videoid):
     ],
     [
         InlineKeyboardButton(
-            text="زیادم بکە بۆ گرووپ یان کەناڵت ⚡️•",
-            url=f"https://t.me/{viv.username}?startgroup=true",
+            text="خاوەنی بۆت 🎸",
+            url=f"https://t.me/IQ7amo",
 ),
 ],
 ]
