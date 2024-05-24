@@ -247,7 +247,7 @@ async def stream(
                 "audio",
                 forceplay=forceplay,
             )
-            button = stream_markup2(_, chat_id)
+            button = telegram_markup(_, chat_id)
             run = await app.send_photo(
                 original_chat_id,
                 photo=config.SOUNCLOUD_IMG_URL,
