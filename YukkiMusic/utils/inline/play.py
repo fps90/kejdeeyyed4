@@ -10,7 +10,7 @@
 import math
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from YukkiMusic.utils.formatters import time_to_seconds
-
+from config import SUPPORT_CHANNEL
 
 def stream_markup_timer(_, videoid, chat_id, played, dur):
     played_sec = time_to_seconds(played)
@@ -42,6 +42,20 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
         ],
         [
             InlineKeyboardButton(
+            text="𝗘𝗻𝗱",
+            callback_data=f"ADMIN Stop|{chat_id}"
+        ),
+        InlineKeyboardButton(
+            text="𝗣𝗮𝘂𝘀𝗲",
+            callback_data=f"ADMIN Pause|{chat_id}"
+        ),
+        InlineKeyboardButton(
+            text="𝗥𝗲𝘀𝘂𝗺𝗲",
+            callback_data=f"ADMIN Resume|{chat_id}",
+        ),
+    ],
+    [
+            InlineKeyboardButton(
                 text=_["P_B_2"],
                 callback_data=f"downloadvideo {videoid}"),
             InlineKeyboardButton(
@@ -50,25 +64,35 @@ def stream_markup_timer(_, videoid, chat_id, played, dur):
             ),
         ],
         [
-            InlineKeyboardButton(text="▷", callback_data=f"ADMIN Resume|{chat_id}"),
-            InlineKeyboardButton(text="II", callback_data=f"ADMIN Pause|{chat_id}"),
-            InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
-            InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
-        ],
-        [
-            InlineKeyboardButton(text="ᴍᴜᴛᴇ", callback_data=f"ADMIN Mute|{chat_id}"),
+            InlineKeyboardButton(text="𝗠𝘂𝘁𝗲", callback_data=f"ADMIN Mute|{chat_id}"),
             InlineKeyboardButton(
-                text="ᴜɴᴍᴜᴛᴇ", callback_data=f"ADMIN Unmute|{chat_id}"
+                text="𝗨𝗻𝗺𝘂𝘁𝗲", callback_data=f"ADMIN Unmute|{chat_id}"
             ),
         ],
-        [InlineKeyboardButton(text=_["CLOSEMENU_BUTTON"], callback_data="close")],
+        [InlineKeyboardButton(text=_["S_B_4"], url=SUPPORT_CHANNEL)],
     ]
     return buttons
 
 
 def stream_markup(_, videoid, chat_id):
     buttons = [
-        [
+
+    [
+
+        InlineKeyboardButton(
+            text="𝗘𝗻𝗱",
+            callback_data=f"ADMIN Stop|{chat_id}"
+        ),
+        InlineKeyboardButton(
+            text="𝗣𝗮𝘂𝘀𝗲",
+            callback_data=f"ADMIN Pause|{chat_id}"
+        ),
+        InlineKeyboardButton(
+            text="𝗥𝗲𝘀𝘂𝗺𝗲",
+            callback_data=f"ADMIN Resume|{chat_id}",
+        ),
+    ],
+    [
             InlineKeyboardButton(
                 text=_["P_B_2"],
                 callback_data=f"downloadvideo {videoid}"),
@@ -78,18 +102,12 @@ def stream_markup(_, videoid, chat_id):
             ),
         ],
         [
-            InlineKeyboardButton(text="▷", callback_data=f"ADMIN Resume|{chat_id}"),
-            InlineKeyboardButton(text="II", callback_data=f"ADMIN Pause|{chat_id}"),
-            InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
-            InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
-        ],
-        [
-            InlineKeyboardButton(text="ᴍᴜᴛᴇ", callback_data=f"ADMIN Mute|{chat_id}"),
+            InlineKeyboardButton(text="𝗠𝘂𝘁𝗲", callback_data=f"ADMIN Mute|{chat_id}"),
             InlineKeyboardButton(
-                text="ᴜɴᴍᴜᴛᴇ", callback_data=f"ADMIN Unmute|{chat_id}"
+                text="𝗨𝗻𝗺𝘂𝘁𝗲", callback_data=f"ADMIN Unmute|{chat_id}"
             ),
         ],
-        [InlineKeyboardButton(text=_["CLOSEMENU_BUTTON"], callback_data="close")],
+        [InlineKeyboardButton(text=_["S_B_4"], url=SUPPORT_CHANNEL)],
     ]
     return buttons
 
@@ -150,9 +168,9 @@ def telegram_markup(_, chat_id):
             InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
         ],
         [
-            InlineKeyboardButton(text="ᴍᴜᴛᴇ", callback_data=f"ADMIN Mute|{chat_id}"),
+            InlineKeyboardButton(text="𝗠𝘂𝘁𝗲", callback_data=f"ADMIN Mute|{chat_id}"),
             InlineKeyboardButton(
-                text="ᴜɴᴍᴜᴛᴇ", callback_data=f"ADMIN Unmute|{chat_id}"
+                text="𝗨𝗻𝗺𝘂𝘁𝗲", callback_data=f"ADMIN Unmute|{chat_id}"
             ),
         ],
         [
@@ -164,7 +182,7 @@ def telegram_markup(_, chat_id):
 
 ## By Anon
 close_keyboard = InlineKeyboardMarkup(
-    [[InlineKeyboardButton(text="〆 ᴄʟᴏsᴇ 〆", callback_data="close")]]
+    [[InlineKeyboardButton(text=_["CLOSEMENU_BUTTON"], callback_data="close")]]
 )
 
 ## Search Query Inline
