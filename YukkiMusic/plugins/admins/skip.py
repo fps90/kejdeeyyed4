@@ -14,7 +14,6 @@ from pyrogram.types import InlineKeyboardMarkup, Message
 
 import config
 from config import BANNED_USERS
-from strings import get_command
 from YukkiMusic import YouTube, app
 from YukkiMusic.core.call import Yukki
 from YukkiMusic.misc import db
@@ -28,13 +27,20 @@ from YukkiMusic.utils.thumbnails import gen_thumb
 SKIP_COMMAND = get_command("SKIP_COMMAND")
 
 
-@app.on_message(filters.command(SKIP_COMMAND) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(
+        ["skip", "cskip", "next", "cnext","دواتر","سکیپ"], prefixes=["/", "!", "%", "", ".", "@", "#"]
+    )
+    & ~filters.private
+    & ~BANNED_USERS
+)
 @AdminRightsCheck
 async def skip(cli, message: Message, _, chat_id):
     if not len(message.command) < 2:
         loop = await get_loop(chat_id)
         if loop != 0:
             return await message.reply_text(_["admin_12"])
+        user_mention = message.from_user.mention if message.from_user else "𝖠𝖽𝗆𝗂𝗇"
         state = message.text.split(None, 1)[1].strip()
         if state.isnumeric():
             state = int(state)
@@ -99,7 +105,7 @@ async def skip(cli, message: Message, _, chat_id):
                 return
     queued = check[0]["file"]
     title = (check[0]["title"]).title()
-    user = check[0]["by"]
+    user = check[0]["by"] if check[0] else "𝖠𝖽𝗆𝗂𝗇"
     user_id = message.from_user.id
     streamtype = check[0]["streamtype"]
     videoid = check[0]["vidid"]
@@ -145,7 +151,7 @@ async def skip(cli, message: Message, _, chat_id):
         run = await message.reply_photo(
             photo=img,
             caption=_["stream_1"].format(
-                title[:27],
+                title[:23],
                 f"https://t.me/{app.username}?start=info_{videoid}",
                 duration_min,
                 user,
@@ -205,7 +211,7 @@ async def skip(cli, message: Message, _, chat_id):
             run = await message.reply_photo(
                 photo=img,
                 caption=_["stream_1"].format(
-                    title[:27],
+                    title[:23],
                     f"https://t.me/{app.username}?start=info_{videoid}",
                     duration_min,
                     user,
