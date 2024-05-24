@@ -214,7 +214,7 @@ async def leave_a_chat(client, message):
 
 # --------------------------------------------------------------------------------- #
 
-@app.on_message(filters.command(["hi", "السلام علیک", "hello", "slaw", "good", "bash", "ok", "bye", "بەخێربێی", "thank","bale","gyan","سلاو","سڵاو","سلام","چۆنن","سپاس","سوپاس","wlc","وەرە","بڕۆ","join","dll","welcome","help","جۆین"] ,prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & filters.group)
+@app.on_message(filters.command(["hi", "السلام علیک", "hello", "slaw", "good", "bash", "ok", "bye", "بەخێربێی", "thank","bale","gyan","سلاو","سڵاو","سلام","چۆنن","سپاس","سوپاس","wlc","وەرە","بڕۆ","join","dll","welcome","help","جۆین"] ,prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & ~filters.private)
 async def bot_check(_, message):
     chat_id = message.chat.id
     await add_served_chat(chat_id)
