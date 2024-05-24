@@ -28,7 +28,6 @@ from pyrogram.errors import (
 from strings.filters import command
 from YukkiMusic import app
 from YukkiMusic.utils.alina_ban import admin_filter
-from YukkiMusic.utils.decorators.userbotjoin import UserbotWrapper
 from YukkiMusic.utils.database import get_assistant, is_active_chat
 
 
