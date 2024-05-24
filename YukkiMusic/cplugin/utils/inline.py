@@ -1,4 +1,5 @@
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+import config
 
 helpmenu = InlineKeyboardMarkup(
     [
@@ -46,11 +47,11 @@ def stream_markup(_, videoid):
     ],
     [
         InlineKeyboardButton(
-            text="ڤـیـدیـۆ 🎥",
-            callback_data=f"downloadvideo {videoid}"),
+            text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 💸•",
+            url=config.SUPPORT_CHANNEL),
         InlineKeyboardButton(
-            text="گۆرانـی 🎸",
-            callback_data=f"downloadaudio {videoid}")
+            text="𝗚𝗿𝗼𝘂𝗽 💸•",
+            url=config.SUPPORT_GROUP)
     ],
     [
         InlineKeyboardButton(
