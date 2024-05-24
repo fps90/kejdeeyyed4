@@ -12,70 +12,43 @@ from pyrogram import filters
 from pyrogram.types import Message
 
 from config import BANNED_USERS
-from strings import get_command
 from YukkiMusic import app
 from YukkiMusic.misc import SUDOERS
+from YukkiMusic.utils.extraction import extract_user
 from YukkiMusic.utils.database import add_gban_user, remove_gban_user
 from YukkiMusic.utils.decorators.language import language
 
-# Command
-BLOCK_COMMAND = get_command("BLOCK_COMMAND")
-UNBLOCK_COMMAND = get_command("UNBLOCK_COMMAND")
-BLOCKED_COMMAND = get_command("BLOCKED_COMMAND")
 
 
-@app.on_message(filters.command(BLOCK_COMMAND) & SUDOERS)
+@app.on_message(filters.command(["block","/block","بلۆک"], "") & SUDOERS)
 @language
 async def useradd(client, message: Message, _):
     if not message.reply_to_message:
         if len(message.command) != 2:
             return await message.reply_text(_["general_1"])
-        user = message.text.split(None, 1)[1]
-        if "@" in user:
-            user = user.replace("@", "")
-        user = await app.get_users(user)
-        if user.id in BANNED_USERS:
-            return await message.reply_text(_["block_1"].format(user.mention))
-        await add_gban_user(user.id)
-        BANNED_USERS.add(user.id)
-        await message.reply_text(_["block_2"].format(user.mention))
-        return
-    if message.reply_to_message.from_user.id in BANNED_USERS:
-        return await message.reply_text(
-            _["block_1"].format(message.reply_to_message.from_user.mention)
-        )
-    await add_gban_user(message.reply_to_message.from_user.id)
-    BANNED_USERS.add(message.reply_to_message.from_user.id)
-    await message.reply_text(
-        _["block_2"].format(message.reply_to_message.from_user.mention)
-    )
+    user = await extract_user(message)
+    if user.id in BANNED_USERS:
+        return await message.reply_text(_["block_1"].format(user.mention))
+    await add_gban_user(user.id)
+    BANNED_USERS.add(user.id)
+    await message.reply_text(_["block_2"].format(user.mention))
 
 
-@app.on_message(filters.command(UNBLOCK_COMMAND) & SUDOERS)
+@app.on_message(filters.command(["unblock","/unblock","لادانی بلۆک"], "") & SUDOERS)
 @language
 async def userdel(client, message: Message, _):
     if not message.reply_to_message:
         if len(message.command) != 2:
             return await message.reply_text(_["general_1"])
-        user = message.text.split(None, 1)[1]
-        if "@" in user:
-            user = user.replace("@", "")
-        user = await app.get_users(user)
-        if user.id not in BANNED_USERS:
-            return await message.reply_text(_["block_3"])
-        await remove_gban_user(user.id)
-        BANNED_USERS.remove(user.id)
-        await message.reply_text(_["block_4"])
-        return
-    user_id = message.reply_to_message.from_user.id
-    if user_id not in BANNED_USERS:
-        return await message.reply_text(_["block_3"])
-    await remove_gban_user(user_id)
-    BANNED_USERS.remove(user_id)
-    await message.reply_text(_["block_4"])
+    user = await extract_user(message)
+    if user.id not in BANNED_USERS:
+        return await message.reply_text(_["block_3"].format(user.mention))
+    await remove_gban_user(user.id)
+    BANNED_USERS.remove(user.id)
+    await message.reply_text(_["block_4"].format(user.mention))
 
 
-@app.on_message(filters.command(BLOCKED_COMMAND) & SUDOERS)
+@app.on_message(filters.command(["blocked", "blockedusers", "blusers","/blocked", "/blockedusers", "/blusers","بلۆککراوەکان"], "") & SUDOERS)
 @language
 async def sudoers_list(client, message: Message, _):
     if not BANNED_USERS:
@@ -88,7 +61,7 @@ async def sudoers_list(client, message: Message, _):
             user = await app.get_users(users)
             user = user.first_name if not user.mention else user.mention
             count += 1
-        except Exception:
+        except:
             continue
         msg += f"{count}➤ {user}\n"
     if count == 0:
