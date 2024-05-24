@@ -250,8 +250,7 @@ async def play(client, message: Message):
             await message.reply_photo(
                 photo=imgp,
                 caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
-                viv.mention,
-                reply_markup==InlineKeyboardMarkup(button),
+                reply_markup=InlineKeyboardMarkup(button),
             )
             await msg.delete()
         except NotInCallError:
@@ -295,8 +294,7 @@ async def play(client, message: Message):
             await message.reply_photo(
                 photo=imgt,
                 caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
-                viv.mention,
-                reply_markup==InlineKeyboardMarkup(button),
+                reply_markup=InlineKeyboardMarkup(button),
             )
             await msg.delete()
 
@@ -353,7 +351,6 @@ async def play(client, message: Message):
         await message.reply_photo(
             photo=imgt,
             caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
-            viv.mention,
-            reply_markup==InlineKeyboardMarkup(button),
-        )
+            reply_markup=InlineKeyboardMarkup(button),
+            )
         await msg.delete()
