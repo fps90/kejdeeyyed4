@@ -1,12 +1,12 @@
 from pyrogram import enums
 from pyrogram.enums import ChatType
 from pyrogram import filters, Client
-from AlinaXIQ import app
+from YukkiMusic import app
 from config import OWNER_ID
-from AlinaXIQ.misc import SUDOERS
+from YukkiMusic.misc import SUDOERS
 from pyrogram.types import Message
-from AlinaXIQ.utils.database import add_served_chat, delete_served_chat
-from AlinaXIQ.utils.alina_ban import admin_filter
+from YukkiMusic.utils.database import add_served_chat, delete_served_chat
+from YukkiMusic.utils.alina_ban import admin_filter
 from pyrogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 from strings.filters import command
 
