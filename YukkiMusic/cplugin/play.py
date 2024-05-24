@@ -246,11 +246,11 @@ async def play(client, message: Message):
                 stream,
             )
             imgp = await gen_thumb(videoid)
-            await client.send_photo(
-                message.chat.id,
+            button = [[InlineKeyboardButton(text="𝗘𝗻𝗱 🎸•", callback_data=f"end_cb"), InlineKeyboardButton(text="𝗣𝗮𝘂𝘀𝗲 🎸•", callback_data=f"pause_cb"), InlineKeyboardButton(text="𝗥𝗲𝘀𝘂𝗺𝗲 🎸•", callback_data=f"resume_cb")], [InlineKeyboardButton(text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 💸•", url=config.SUPPORT_CHANNEL), InlineKeyboardButton(text="𝗚𝗿𝗼𝘂𝗽 💸•", url=config.SUPPORT_GROUP)], [InlineKeyboardButton(f"خاوەنی بۆت 🎸", url=f"https://t.me/IQ7amo")], [InlineKeyboardButton(text="زیادم بکە بۆ گرووپ یان کەناڵت ⚡️•", url=f"https://t.me/{BOT_USERNAME}?startgroup=True")]]
+            await message.reply_photo(
                 photo=imgp,
                 caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
-                reply_markup=strem1,
+                reply_markup=InlineKeyboardMarkup(button)
             )
             await msg.delete()
         except NotInCallError:
@@ -290,11 +290,10 @@ async def play(client, message: Message):
             imgt = await gen_thumb(videoid)
             await stream_on(message.chat.id)
             await add_active_chat(message.chat.id)
-            await client.send_photo(
-                message.chat.id,
+            await message.reply_photo(
                 photo=imgt,
                 caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
-                reply_markup=strem1,
+                reply_markup=InlineKeyboardMarkup(button)
             )
             await msg.delete()
 
@@ -345,12 +344,12 @@ async def play(client, message: Message):
                     f"sᴏᴍᴇ ᴇxᴄᴇᴘᴛɪᴏɴ ᴏᴄᴄᴜʀᴇᴅ ᴡʜᴇɴ ᴘʀᴏᴄᴇssɪɴɢ\n {e}"
                 )
         imgt = await gen_thumb(videoid)
+        button = [[InlineKeyboardButton(text="𝗘𝗻𝗱 🎸•", callback_data=f"end_cb"), InlineKeyboardButton(text="𝗣𝗮𝘂𝘀𝗲 🎸•", callback_data=f"pause_cb"), InlineKeyboardButton(text="𝗥𝗲𝘀𝘂𝗺𝗲 🎸•", callback_data=f"resume_cb")], [InlineKeyboardButton(text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 💸•", url=config.SUPPORT_CHANNEL), InlineKeyboardButton(text="𝗚𝗿𝗼𝘂𝗽 💸•", url=config.SUPPORT_GROUP)], [InlineKeyboardButton(f"خاوەنی بۆت 🎸", url=f"https://t.me/IQ7amo")], [InlineKeyboardButton(text="زیادم بکە بۆ گرووپ یان کەناڵت ⚡️•", url=f"https://t.me/{BOT_USERNAME}?startgroup=True")]]
         await stream_on(message.chat.id)
         await add_active_chat(message.chat.id)
-        await client.send_photo(
-            message.chat.id,
+        await message.reply_photo(
             photo=imgt,
             caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
-            reply_markup=strem1,
-            )
+            reply_markup=InlineKeyboardMarkup(button)
+        )
         await msg.delete()
