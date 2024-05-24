@@ -14,7 +14,6 @@ from pyrogram.types import Message
 from pyrogram.enums import ChatMemberStatus
 from .play import pytgcalls
 from .utils import (
-    close_key,
     is_streaming,
     stream_off,
     stream_on,
