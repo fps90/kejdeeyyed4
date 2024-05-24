@@ -72,7 +72,8 @@ OWNER_ID = list(
     map(int, getenv("OWNER_ID", "833360381").split())
 )  # Input type must be interger
 
-
+OWNER_USERNAME = getenv("OWNER_USERNAME","IQ7amo")
+USER_OWNER = getenv("USER_OWNER","IQ7amo")
 # ________________________________________________________________________________#
 # Get it from http://dashboard.heroku.com/account
 HEROKU_API_KEY = getenv("HEROKU_API_KEY")
@@ -104,7 +105,8 @@ SUPPORT_CHANNEL = getenv(
 SUPPORT_GROUP = getenv(
     "SUPPORT_GROUP", "https://t.me/IQSUPP"
 )  # Example:- https://t.me/Quizess_prince
-
+OWNER_CHANNEL = getenv("OWNER_CHANNEL", "https://t.me/EHS4SS")
+GROUP_BOT = int(getenv("GROUP_BOT", "-1001962701094"))
 # ________________________________________________________________________________#
 # Set it in True if you want to leave your assistant after a certain amount of time. [Set time via AUTO_LEAVE_ASSISTANT_TIME]
 AUTO_LEAVING_ASSISTANT = getenv("AUTO_LEAVING_ASSISTANT", False)
