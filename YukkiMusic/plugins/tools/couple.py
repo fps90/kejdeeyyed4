@@ -1,6 +1,6 @@
 import os
 import random
-from config import OWNER_ID
+from config import OWNER_ID, BANNED_USERS
 import asyncio
 from PIL import Image, ImageDraw
 from pyrogram import Client, filters
@@ -11,16 +11,16 @@ from YukkiMusic import app
 
 @app.on_message(
     filters.command(
-        ["couples", "couple"],
-        prefixes=["/", "!", "%", ",", "", ".", "@", "#"],
-    )
+        ["couples", "couple", "kapl", "قل", "کەپل", "کەپڵ"],
+        prefixes=["/", "!", "%", ",", "", ".", "@", "#"],)
+& ~BANNED_USERS
 )
 async def couples(app, message):
     cid = message.chat.id
     if message.chat.type == ChatType.PRIVATE:
-        return await message.reply_text("ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ɪs ᴏɴʟʏ ғᴏʀ ɢʀᴏᴜᴘs.")
+        return await message.reply_text("**تەنیا لە گرووپ کارەکات😂🙂**")
     try:
-        msg = await message.reply_text("❣️")
+        msg = await message.reply_text("**دوو ئاشقە شێتەکە دیاری دەکرێت😂🙂🫶🏻!**")
         list_of_users = []
 
         async for i in app.get_chat_members(message.chat.id, limit=50):
@@ -55,10 +55,10 @@ async def couples(app, message):
         img1 = Image.open(f"{p1}")
         img2 = Image.open(f"{p2}")
 
-        img = Image.open("assets/Couple.png")
+        img = Image.open("assets/cppic.png")
 
-        img1 = img1.resize((390, 390))
-        img2 = img2.resize((390, 390))
+        img1 = img1.resize((437,437))
+        img2 = img2.resize((437,437))
 
         mask = Image.new("L", img1.size, 0)
         draw = ImageDraw.Draw(mask)
@@ -73,16 +73,17 @@ async def couples(app, message):
 
         draw = ImageDraw.Draw(img)
 
-        img.paste(img1, (125, 196), img1)
-        img.paste(img2, (780, 196), img2)
+        img.paste(img1, (116, 160), img1)
+        img.paste(img2, (789, 160), img2)
 
         img.save(f"test_{cid}.png")
 
-        TXT = f"""
-**ᴛᴏᴅᴀʏ's sᴇʟᴇᴄᴛᴇᴅ ᴄᴏᴜᴘʟᴇs 🌺 :
-
-{N1} + {N2} = ❣️
-
+        TXT = f"""**
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━♡
+┠ کەپڵەکان دیاری کران 💍🌚 :
+┠ پیرۆزە 😂🎉 
+┠ {N1} + {N2} = ❣️
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━♡
 **
 """
         await app.send_chat_action(message.chat.id, ChatAction.UPLOAD_PHOTO)
@@ -90,7 +91,7 @@ async def couples(app, message):
             f"test_{cid}.png",
             caption=TXT,
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="ᴍʏ ᴄᴜᴛᴇ ᴅᴇᴠᴇʟᴏᴘᴇʀ 🌋", user_id=OWNER)]]
+                [[InlineKeyboardButton(text="👻 خاوەنی بۆت 👻", user_id=OWNER)]]
             ),
         )
         await msg.delete()
