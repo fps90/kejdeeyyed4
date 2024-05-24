@@ -1,6 +1,6 @@
 from pyrogram import Client, filters, types, enums
 from pyrogram.types import ChatMemberUpdated
-from AlinaXIQ import app
+from YukkiMusic import app
 import asyncio
 import json
 
