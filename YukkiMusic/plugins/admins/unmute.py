@@ -1,8 +1,8 @@
-from AlinaXIQ import app
+from YukkiMusic import app
 from pyrogram import filters,enums
-from AlinaXIQ.misc import SUDOERS
+from YukkiMusic.misc import SUDOERS
 from pyrogram.types import ChatPermissions 
-from AlinaXIQ.utils.alina_ban import admin_filter
+from YukkiMusic.utils.alina_ban import admin_filter
 
 @app.on_message(filters.command(["unmuteall","لادانی میوتکراوەکان"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & admin_filter)
 async def unmute_all(_,msg):
