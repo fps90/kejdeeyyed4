@@ -174,7 +174,7 @@ def telegram_markup(_, chat_id):
             ),
         ],
         [
-            InlineKeyboardButton(text=text="〆 ᴄʟᴏsᴇ 〆", callback_data="close"),
+            InlineKeyboardButton(text="〆 ᴄʟᴏsᴇ 〆", callback_data="close"),
         ],
     ]
     return buttons
