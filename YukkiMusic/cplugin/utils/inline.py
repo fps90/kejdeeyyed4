@@ -27,7 +27,7 @@ buttons = InlineKeyboardMarkup(
 )
 
 
-    strem1  = [
+strem1  = [
 
     [
 
