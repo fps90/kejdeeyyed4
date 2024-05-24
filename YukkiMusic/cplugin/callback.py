@@ -31,7 +31,6 @@ from .utils.active import (
 )
 from YukkiMusic.misc import SUDOERS
 from .utils.active import _clear_
-from .utils.inline import close_key
 from .play import pytgcalls
 from YukkiMusic.misc import clonedb
 
