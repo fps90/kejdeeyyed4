@@ -99,9 +99,11 @@ def alive_panel(_):
     buttons = [
         [
             InlineKeyboardButton(
-                text="✿︎ ᴀᴅᴅ ᴍᴇ ✿︎", url=f"https://t.me/{app.username}?startgroup=true"
-            ),
-            InlineKeyboardButton(text=_["S_B_3"], url=f"{SUPPORT_GROUP}"),
+                text=_["S_B_9"], url=f"https://t.me/{app.username}?startchannel=true",
+            )
+        ],
+        [
+            InlineKeyboardButton(text=_["S_B_6"], url=config.SUPPORT_CHANNEL),
         ],
     ]
     return buttons
