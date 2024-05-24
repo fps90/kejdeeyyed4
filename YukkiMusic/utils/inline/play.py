@@ -147,13 +147,13 @@ def telegram_markup_timer(_, chat_id, played, dur):
             InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
         ],
         [
-            InlineKeyboardButton(text="ᴍᴜᴛᴇ", callback_data=f"ADMIN Mute|{chat_id}"),
+            InlineKeyboardButton(text="𝗠𝘂𝘁𝗲", callback_data=f"ADMIN Mute|{chat_id}"),
             InlineKeyboardButton(
-                text="ᴜɴᴍᴜᴛᴇ", callback_data=f"ADMIN Unmute|{chat_id}"
+                text="𝗨𝗻𝗺𝘂𝘁𝗲", callback_data=f"ADMIN Unmute|{chat_id}"
             ),
         ],
         [
-            InlineKeyboardButton(text=_["CLOSEMENU_BUTTON"], callback_data="close"),
+            InlineKeyboardButton(text="〆 ᴄʟᴏsᴇ 〆", callback_data="close"),
         ],
     ]
     return buttons
@@ -174,7 +174,7 @@ def telegram_markup(_, chat_id):
             ),
         ],
         [
-            InlineKeyboardButton(text=_["CLOSEMENU_BUTTON"], callback_data="close"),
+            InlineKeyboardButton(text=text="〆 ᴄʟᴏsᴇ 〆", callback_data="close"),
         ],
     ]
     return buttons
@@ -182,7 +182,7 @@ def telegram_markup(_, chat_id):
 
 ## By Anon
 close_keyboard = InlineKeyboardMarkup(
-    [[InlineKeyboardButton(text=_["CLOSEMENU_BUTTON"], callback_data="close")]]
+    [[InlineKeyboardButton(text="〆 ᴄʟᴏsᴇ 〆", callback_data="close")]]
 )
 
 ## Search Query Inline
