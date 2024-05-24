@@ -10,7 +10,7 @@
 import asyncio
 from random import choice
 import time
-
+from time import time
 from pyrogram import filters
 from pyrogram.enums import ChatType, ParseMode
 from pyrogram.types import (
