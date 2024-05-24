@@ -44,10 +44,10 @@ close_key = [
     ],
     [
         InlineKeyboardButton(
-            text=_["P_B_2"],
+            text="ڤـیـدیـۆ 🎥",
             callback_data=f"downloadvideo {videoid}"),
         InlineKeyboardButton(
-            text=_["P_B_1"],
+            text="گۆرانـی 🎸",
             callback_data=f"downloadaudio {videoid}")
     ],
     [
