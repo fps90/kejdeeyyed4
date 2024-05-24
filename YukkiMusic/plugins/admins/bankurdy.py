@@ -9,9 +9,9 @@ from pyrogram.errors.exceptions.bad_request_400 import (
     UserAdminInvalid,
     BadRequest
 )
-from AlinaXIQ.misc import SUDOERS
+from YukkiMusic.misc import SUDOERS
 import datetime
-from AlinaXIQ import app
+from YukkiMusic import app
 
 
 
