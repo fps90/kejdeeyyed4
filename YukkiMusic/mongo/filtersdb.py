@@ -1,4 +1,4 @@
-from AlinaXIQ.utils.mongo import db
+from YukkiMusic.utils.mongo import db
 
 filters = db.filters["filters"] 
 
