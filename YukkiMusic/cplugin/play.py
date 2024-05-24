@@ -247,6 +247,7 @@ async def play(client, message: Message):
             )
             imgp = await gen_thumb(videoid)
             await client.send_photo(
+                message.chat.id,
                 photo=imgp,
                 caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
                 reply_markup=strem1,
@@ -290,6 +291,7 @@ async def play(client, message: Message):
             await stream_on(message.chat.id)
             await add_active_chat(message.chat.id)
             await client.send_photo(
+                message.chat.id,
                 photo=imgt,
                 caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
                 reply_markup=strem1,
@@ -346,6 +348,7 @@ async def play(client, message: Message):
         await stream_on(message.chat.id)
         await add_active_chat(message.chat.id)
         await client.send_photo(
+            message.chat.id,
             photo=imgt,
             caption=f"<b>⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎸\n\n╮◉ ناونیشان : [{title[:18]}](https://t.me/{viv.username}?start=info_{videoid})\n│᚜⦿ ماوەکەی : {duration} خولەك\n╯◉ لەلایەن : {ruser} </b>",
             reply_markup=strem1,
