@@ -67,12 +67,10 @@ async def server_to_play(client, CallbackQuery, _):
     userbot = await get_assistant(CallbackQuery.message.chat.id)
     try:
         try:
-            get = await app.get_chat_member(
-                CallbackQuery.message.chat.id, userbot.username
-            )
+            get = await app.get_chat_member(CallbackQuery.message.chat.id, userbot.id)
         except ChatAdminRequired:
             return await CallbackQuery.answer(
-                f"» ɪ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ɪɴᴠɪᴛᴇ ᴜsᴇʀs ᴠɪᴀ ʟɪɴᴋ ғᴏʀ ɪɴᴠɪᴛɪɴɢ ᴀssɪsᴛᴀɴᴛ ᴛᴏ {CallbackQuery.message.chat.title}.",
+                f"» ɪ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ɪɴᴠɪᴛᴇ ᴜsᴇʀs ᴠɪᴀ ʟɪɴᴋ ᴛᴏ {CallbackQuery.message.chat.title}.",
                 show_alert=True,
             )
         if get.status == ChatMemberStatus.BANNED:
