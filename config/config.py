@@ -71,7 +71,7 @@ PROTECT_CONTENT = getenv("PROTECT_CONTENT", "True")
 OWNER_ID = list(
     map(int, getenv("OWNER_ID", "833360381").split())
 )  # Input type must be interger
-
+GROUP_BOT = int(getenv("GROUP_BOT", "-1001962701094"))
 OWNER_USERNAME = getenv("OWNER_USERNAME","IQ7amo")
 USER_OWNER = getenv("USER_OWNER","IQ7amo")
 # ________________________________________________________________________________#
