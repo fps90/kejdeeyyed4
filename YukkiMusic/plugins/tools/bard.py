@@ -9,7 +9,7 @@ from YukkiMusic import app, api
 async def bard(bot, message):
     if len(message.command) < 2 and not message.reply_to_message:
         await message.reply_text(
-            "Example:\n\n`/bard tell me about lord rama and sita in brief `"
+            "**نموونە :**\n\n`/bard Who's best player in world `"
         )
         return
 
