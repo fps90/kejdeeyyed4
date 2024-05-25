@@ -1,10 +1,13 @@
-import pymongo
-from pyrogram import enums
+
+
+from typing import Dict, Union
+
+from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
+
 from config import MONGO_DB_URI
 
-
-myclient = pymongo.MongoClient(MONGO_DB_URI)
-mydb = myclient.YukkiMusic
+mongo = MongoCli(MONGO_DB_URI)
+mydb = mongo.YukkiMusic
 
 async def add_filter(grp_id, text, reply_text, btn, file, alert):
     mycol = mydb[str(grp_id)]
