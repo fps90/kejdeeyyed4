@@ -46,6 +46,8 @@ userbot = Userbot()
 MOD_LOAD = []
 MOD_NOLOAD = []
 
+command
+
 from .platforms import *
 
 YouTube = YouTubeAPI()
