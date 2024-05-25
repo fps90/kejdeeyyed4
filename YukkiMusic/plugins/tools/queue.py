@@ -95,18 +95,8 @@ async def ping_com(client, message: Message, _):
             IMAGE = config.SOUNCLOUD_IMG_URL
         else:
             IMAGE = get_image(videoid)
-    send = (
-        "**⌛️ᴅᴜʀᴀᴛɪᴏɴ:** ᴜɴᴋɴᴏᴡɴ ᴅᴜʀᴀᴛɪᴏɴ sᴛʀᴇᴀᴍ \n\nᴄʟɪᴄᴋ ᴏɴ ʙᴜᴛᴛᴏɴ ʙᴇʟᴏᴡ ᴛᴏ ɢᴇᴛ ᴡʜᴏʟʀ ǫᴜᴇᴜᴇᴅ ʟɪsᴛ."
-        if DUR == "Unknown"
-        else "\nᴄʟɪᴄᴋ ᴏɴ ʙᴜᴛᴛᴏɴ ʙᴇʟᴏᴡ ᴛᴏ ɢᴇᴛ ᴡʜᴏʟʀ ǫᴜᴇᴜᴇᴅ ʟɪsᴛ."
-    )
-    cap = f"""**{app.mention} ᴘʟᴀʏᴇʀ**
-
-🎥**ᴘʟᴀʏɪɴɢ:** {title}
-
-🔗**sᴛʀᴇᴀᴍ ᴛʏᴘᴇ:** {typo}
-🙍‍♂️**ᴘʟᴀʏᴇᴅ ʙʏ:** {user}
-{send}"""
+    send = _["queue_6"] if DUR == "Unknown" else _["queue_7"]
+    cap = _["queue_8"].format(app.mention, title, typo, user, send)
     upl = (
         queue_markup(_, DUR, "c" if cplay else "g", videoid)
         if DUR == "Unknown"
@@ -179,7 +169,7 @@ async def queued_tracks(client, CallbackQuery: CallbackQuery, _):
     basic[videoid] = False
     buttons = queue_back_markup(_, what)
     med = InputMediaPhoto(
-        media="https://telegra.ph//file/6f7d35131f69951c74ee5.jpg",
+        media="https://telegra.ph/file/5f2f352f49adade08bdd4.jpg",
         caption=_["queue_1"],
     )
     await CallbackQuery.edit_message_media(media=med)
@@ -188,11 +178,11 @@ async def queued_tracks(client, CallbackQuery: CallbackQuery, _):
     for x in got:
         j += 1
         if j == 1:
-            msg += f'ᴄᴜʀʀᴇɴᴛ ᴘʟᴀʏɪɴɢ:\n\n🏷ᴛɪᴛʟᴇ: {x["title"]}\nᴅᴜʀᴀᴛɪᴏɴ: {x["dur"]}\nʙʏ: {x["by"]}\n\n'
+            msg += f'<b>⇜ پەخشدەکرێت :\n\n🎻 ناونیشان : {x["title"]}\nماوە : {x["dur"]}\nلەلایەن : {x["by"]} ⎋</b>\n\n'
         elif j == 2:
-            msg += f'ǫᴜᴇᴜᴇᴅ:\n\n🏷ᴛɪᴛʟᴇ: {x["title"]}\nᴅᴜʀᴀᴛɪᴏɴ: {x["dur"]}\nʙʏ: {x["by"]}\n\n'
+            msg += f'<b>⇜ ڕیزکراوە :\n\n🎻 ناونیشان : {x["title"]}\nماوە : {x["dur"]}\nلەلایەن : {x["by"]} ⎋</b>\n\n'
         else:
-            msg += f'🏷ᴛɪᴛʟᴇ: {x["title"]}\nᴅᴜʀᴀᴛɪᴏɴ: {x["dur"]}\nʙʏ: {x["by"]}\n\n'
+            msg += f'<b>⇜ 🎻 ناونیشان : {x["title"]}\nماوە : {x["dur"]}\nلەلایەن : {x["by"]} ⎋</b>\n\n'
     if "Queued" in msg:
         if len(msg) < 700:
             await asyncio.sleep(1)
@@ -245,18 +235,8 @@ async def queue_back(client, CallbackQuery: CallbackQuery, _):
             IMAGE = config.SOUNCLOUD_IMG_URL
         else:
             IMAGE = get_image(videoid)
-    send = (
-        "**⌛️ᴅᴜʀᴀᴛɪᴏɴ:** ᴜɴᴋɴᴏᴡɴ ᴅᴜʀᴀᴛɪᴏɴ sᴛʀᴇᴀᴍ \n\nᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ᴡʜᴏʟᴇ ǫᴜᴇᴜᴇᴅ ʟɪsᴛ."
-        if DUR == "Unknown"
-        else "\nᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ᴡʜᴏʟᴇ ǫᴜᴇᴜᴇᴅ ʟɪsᴛ."
-    )
-    cap = f"""**{app.mention} ᴘʟᴀʏᴇʀ**
-
-🎥**ᴘʟᴀʏɪɴɢ:** {title}
-
-🔗**sᴛʀᴇᴀᴍ ᴛʏᴘᴇ:** {typo}
-🙍‍♂️**ᴘʟᴀʏᴇᴅ ʙʏ :** {user}
-{send}"""
+    send = _["queue_6"] if DUR == "Unknown" else _["queue_7"]
+    cap = _["queue_8"].format(app.mention, title, typo, user, send)
     upl = (
         queue_markup(_, DUR, cplay, videoid)
         if DUR == "Unknown"
