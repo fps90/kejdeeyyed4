@@ -7,13 +7,13 @@ from YukkiMusic import app
 
 @app.on_message(
     filters.command(
-        ["chatgpt", "ai", "ask"], prefixes=["+", ".", "/", "-", "?", "$", "#", "&"]
+        ["chatgpt", "ai", "ask"], prefixes=["+", ".", "/", "", "?", "$", "#", "&"]
     )
 )
 async def chatgpt_chat(bot, message):
     if len(message.command) < 2 and not message.reply_to_message:
         await message.reply_text(
-            "Example:\n\n`/ai write simple website code using html css, js?`"
+            "**نموونە :**\n\n`/ai write simple website code using html css, js?`"
         )
         return
 
