@@ -1,9 +1,13 @@
-from YukkiMusic.utils.mongo import db
+import pymongo
+from pyrogram import enums
+from config import MONGO_DB_URI
 
-filters = db.filters["filters"] 
+
+myclient = pymongo.MongoClient(DATABASE_URI)
+mydb = myclient.YukkiMusic
 
 async def add_filter(grp_id, text, reply_text, btn, file, alert):
-    mycol = filters[str(grp_id)]
+    mycol = mydb[str(grp_id)]
     # mycol.create_index([('text', 'text')])
 
     data = {
@@ -20,10 +24,27 @@ async def add_filter(grp_id, text, reply_text, btn, file, alert):
         logger.exception('Some error occured!', exc_info=True)
              
      
+async def find_filter(group_id, name):
+    mycol = mydb[str(group_id)]
+    
+    query = mycol.find( {"text":name})
+    # query = mycol.find( { "$text": {"$search": name}})
+    try:
+        for file in query:
+            reply_text = file['reply']
+            btn = file['btn']
+            fileid = file['file']
+            try:
+                alert = file['alert']
+            except:
+                alert = None
+        return reply_text, btn, alert, fileid
+    except:
+        return None, None, None, None
 
 
 async def get_filters(group_id):
-    mycol = filters[str(group_id)]
+    mycol = mydb[str(group_id)]
 
     texts = []
     query = mycol.find()
@@ -37,7 +58,7 @@ async def get_filters(group_id):
 
 
 async def delete_filter(message, text, group_id):
-    mycol = filters[str(group_id)]
+    mycol = mydb[str(group_id)]
     
     myquery = {'text':text }
     query = mycol.count_documents(myquery)
@@ -53,11 +74,11 @@ async def delete_filter(message, text, group_id):
 
 
 async def del_all(message, group_id, title):
-    if str(group_id) not in filters.list_collection_names():
+    if str(group_id) not in mydb.list_collection_names():
         await message.edit_text(f"Nothing to remove in {title}!")
         return
 
-    mycol = filters[str(group_id)]
+    mycol = mydb[str(group_id)]
     try:
         mycol.drop()
         await message.edit_text(f"All filters from {title} has been removed")
@@ -67,7 +88,7 @@ async def del_all(message, group_id, title):
 
 
 async def count_filters(group_id):
-    mycol = filters[str(group_id)]
+    mycol = mydb[str(group_id)]
 
     count = mycol.count()
     return False if count == 0 else count
