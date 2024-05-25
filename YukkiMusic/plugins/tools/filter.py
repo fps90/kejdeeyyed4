@@ -2,7 +2,12 @@ import io
 import re
 from pyrogram import filters, Client, enums
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
-from YukkiMusic.mongo.filtersdb import *
+from YukkiMusic.utils.database import (
+   add_filter,
+   get_filters,
+   delete_filter,
+   count_filters
+)
 from typing import List
 from YukkiMusic.misc import SUDOERS
 from YukkiMusic import app
