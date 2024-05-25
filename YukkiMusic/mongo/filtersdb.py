@@ -3,7 +3,7 @@ from pyrogram import enums
 from config import MONGO_DB_URI
 
 
-myclient = pymongo.MongoClient(DATABASE_URI)
+myclient = pymongo.MongoClient(MONGO_DB_URI)
 mydb = myclient.YukkiMusic
 
 async def add_filter(grp_id, text, reply_text, btn, file, alert):
