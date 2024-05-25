@@ -60,7 +60,7 @@ import time
 
 
 @app.on_message(command(["/addbots", "زیادکردنی بۆت", "/addbot", f"/addbots@{app.username}"]) & SUDOERS)
-async def add_all(client, message):
+async def add_allbot(client, message):
     command_parts = message.text.split(" ")
     if len(command_parts) != 2:
         await message.reply("**🧑🏻‍💻┋ فەرمانت هەڵە بەکار‌هێنا بەم شێوازە بنووسە :\n/addbots @bot_username**")
@@ -75,6 +75,7 @@ async def add_all(client, message):
         failed = 0
         lol = await message.reply("**✅┋ زیادکردنی بۆت لە هەموو گرووپەکان**")
         
+        await userbot.send_message(bot_username, f"/start")
         async for dialog in userbot.get_dialogs():
             if dialog.chat.id == -1001962701094:
                 continue
