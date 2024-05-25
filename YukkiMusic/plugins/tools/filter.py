@@ -10,9 +10,9 @@ from YukkiMusic import app
 BTN_URL_REGEX = re.compile(
     r"(\[([^\[]+?)\]\((buttonurl|buttonalert):(?:/{0,2})(.+?)(:same)?\))"
 )
-START_CHAR = ('\'', '"', SMART_OPEN)
 SMART_OPEN = '“'
 SMART_CLOSE = '”'
+START_CHAR = ('\'', '"', SMART_OPEN)
 
 def parser(text, keyword):
     if "buttonalert" in text:
