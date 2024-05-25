@@ -1,7 +1,5 @@
 import io
-import random 
 import re
-import os
 from pyrogram import filters, Client, enums
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 from YukkiMusic.mongo.filtersdb import *
@@ -72,7 +70,7 @@ def parser(text, keyword):
     except:
         return note_data, buttons, None
 
-ef remove_escapes(text: str) -> str:
+def remove_escapes(text: str) -> str:
     res = ""
     is_escaped = False
     for counter in range(len(text)):
