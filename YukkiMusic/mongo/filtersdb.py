@@ -1,13 +1,14 @@
 
 
-from typing import Dict, Union
+import pymongo
+from config import MONGO_DB_URI, DATABASE_NAME
+from pyrogram import enums
 
-from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 
-from config import MONGO_DB_URI
+myclient = pymongo.MongoClient(MONGO_DB_URI)
+mydb = myclient[DATABASE_NAME]
 
-mongo = MongoCli(MONGO_DB_URI)
-mydb = mongo.YukkiMusic
+
 
 async def add_filter(grp_id, text, reply_text, btn, file, alert):
     mycol = mydb[str(grp_id)]
@@ -77,7 +78,7 @@ async def delete_filter(message, text, group_id):
 
 
 async def del_all(message, group_id, title):
-    if str(group_id) not in mydb.list_collection_names():
+    if str(group_id):
         await message.edit_text(f"Nothing to remove in {title}!")
         return
 
@@ -95,3 +96,4 @@ async def count_filters(group_id):
 
     count = mycol.count()
     return False if count == 0 else count
+
