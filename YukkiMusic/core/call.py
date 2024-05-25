@@ -334,9 +334,10 @@ class Call(PyTgCalls):
                     chat_id,
                     stream,
                 )
-            except Exception as e:
-                logging.exception(e)
-                raise AssistantErr(f"Exception : {e}")
+            except Exception:
+                raise AssistantErr(
+                    f"**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+                )
 
         except AlreadyJoinedError:
             raise AssistantErr(
@@ -348,12 +349,20 @@ class Call(PyTgCalls):
             )
         except Exception as e:
             if "phone.CreateGroupCall" in str(e):
-                return await msg.edit_text(
-                    "**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
-                )
-            else:
-                logging.exception(e)
-                raise AssistantErr(f"Exception : {e}")
+                try:
+                    await self.join_assistant(original_chat_id, chat_id)
+                except Exception as e:
+                    raise e
+                try:
+                    await assistant.play(
+                        chat_id,
+                        stream,
+                    )
+                except Exception:
+                    raise AssistantErr(
+                        f"**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+                    )
+
         await add_active_chat(chat_id)
         await music_on(chat_id)
         if video:
