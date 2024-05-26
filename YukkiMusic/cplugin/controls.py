@@ -18,21 +18,21 @@ from .utils import is_active_chat, is_streaming, stream_off, stream_on
 from .utils.active import _clear_
 
 
-@Client.on_message(filters.command(["pause", "resume", "end", "stop"]) & filters.group)
+@Client.on_message(filters.command(["pause", "resume", "end", "stop","ڕاگرتن","وەستان"]) & ~filters.private)
 async def pause_str(client, message: Message):
     try:
         await message.delete()
     except BaseException:
         pass
     if not await is_active_chat(message.chat.id):
-        return await message.reply_text("ʙᴏᴛ ɪsɴ'ᴛ sᴛʀᴇᴀᴍɪɴɢ ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ.")
+        return await message.reply_text("**» بۆ تێلی نەکردۆتەوە**")
     check = await client.get_chat_member(message.chat.id, message.from_user.id)
 
     if (
         check.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]
     ) or message.from_user.id not in SUDOERS:
         return await message.reply_text(
-            "» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴀɴ ᴀᴅᴍɪɴ ʙᴀʙʏ, ᴘʟᴇᴀsᴇ sᴛᴀʏ ɪɴ ʏᴏᴜʀ ʟɪᴍɪᴛs."
+            "**» تۆ ئەدمین نییت دڵە**"
         )
 
     admin = (
@@ -40,30 +40,30 @@ async def pause_str(client, message: Message):
     ).privileges
     if not admin.can_manage_video_chats:
         return await message.reply_text(
-            "» ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ᴍᴀɴᴀɢᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛs, ᴘʟᴇᴀsᴇ sᴛᴀʏ ɪɴ ʏᴏᴜʀ ʟɪᴍɪᴛs."
+            "**» تۆ ڕۆڵی تەواوت نییە بۆ بەڕێوەبردنی تێل**"
         )
     if message.text.lower() == "/pause":
         if not await is_streaming(message.chat.id):
             return await message.reply_text(
-                "ᴅɪᴅ ʏᴏᴜ ʀᴇᴍᴇᴍʙᴇʀ ᴛʜᴀᴛ ʏᴏᴜ ʀᴇsᴜᴍᴇᴅ ᴛʜᴇ sᴛʀᴇᴀᴍ ?"
+                "**•⎆┊ لە بیرت چووە کە پێشتر وەستێنراوە ♥️•**"
             )
         await pytgcalls.pause_stream(message.chat.id)
         await stream_off(message.chat.id)
         return await message.reply_text(
-            text=f"➻ sᴛʀᴇᴀᴍ ᴩᴀᴜsᴇᴅ 🥺 ʙʏ : {message.from_user.mention} 🥀",
+            text=f"<b>•⎆┊ ئێستا پەخشکردن بۆ ماوەیەکی کاتی وەستاوە ♥•\n\n•⎆┊ لەلایەن : {message.from_user.mention} </b>",
         )
     elif message.text.lower() == "/resume":
 
         if await is_streaming(message.chat.id):
             return await message.reply_text(
-                "ᴅɪᴅ ʏᴏᴜ ʀᴇᴍᴇᴍʙᴇʀ ᴛʜᴀᴛ ʏᴏᴜ ᴘᴀᴜsᴇᴅ ᴛʜᴇ sᴛʀᴇᴀᴍ ?"
+                "**•⎆┊ لە بیرت چووە کە پێشتر دەستی بە پەخشکردن کردەوە ♥️•**"
             )
         await stream_on(message.chat.id)
         await pytgcalls.resume_stream(message.chat.id)
         return await message.reply_text(
-            text=f"➻ sᴛʀᴇᴀᴍ ʀᴇsᴜᴍᴇᴅ ʙʏ : {message.from_user.mention} 🥀",
+            text=f"<b>•⎆┊ ئێستا پەخشکردن دەست پێدەکاتەوە♥•\n\n•⎆┊ لەلایەن : {message.from_user.mention} </b>",
         )
-    elif message.text.lower() == "/end" or message.text.lower() == "/stop":
+    elif message.text.lower() == "/end" or message.text.lower() == "/stop" or message.text.lower() == "ڕاگرتن" or message.text.lower() == "وەستان":
         try:
             await _clear_(message.chat.id)
             await pytgcalls.leave_call(message.chat.id)
@@ -71,5 +71,5 @@ async def pause_str(client, message: Message):
             pass
 
         return await message.reply_text(
-            text=f"➻ **sᴛʀᴇᴀᴍ ᴇɴᴅᴇᴅ/sᴛᴏᴩᴩᴇᴅ** ❄ ʙʏ : {message.from_user.mention} 🥀",
+            text=f"<b>•⎆┊ پەخشکردن ڕاگرترا|وەستا♥•\n\n•⎆┊ لەلایەن : {message.from_user.mention} </b>",
         )
