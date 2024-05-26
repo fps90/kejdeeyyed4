@@ -91,7 +91,6 @@ async def help_com_group(client, message: Message, _):
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
             # Block the user if they exceed the threshold
-            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             hu = await message.reply_text(f"**🧑🏻‍💻┋ {message.from_user.mention} بۆت سپام مەکە بەڕێز\n🧑🏻‍💻┋ پێنج چرکە بوەستە**")
             await asyncio.sleep(3)
             await hu.delete()
