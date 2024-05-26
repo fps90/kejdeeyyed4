@@ -11,7 +11,8 @@
 import logging
 import os
 import sys
-from os import listdir, mkdir, rmdir
+from os import listdir, mkdir
+import shutil
 
 
 def dirr():
@@ -40,7 +41,7 @@ def dirr():
         mkdir(workdir)
 
     if workdir in listdir():
-        rmdir(workdir)
+        shutil.rmtree(workdir)
         mkdir(workdir)
     logging.info("Directories Updated.")
 
