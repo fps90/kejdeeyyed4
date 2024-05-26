@@ -1,6 +1,6 @@
 from pyrogram import filters
 from YukkiMusic import app
-from YukkiMusic.utils.errors import capture_err
+from YukkiMusic.utils.error import capture_err
 
 
 @app.on_message(
