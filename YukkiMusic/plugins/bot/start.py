@@ -89,86 +89,13 @@ IQ_VIDS = [
 
 ]
 
-emoji = [
-    "👍",
-    "❤",
-    "🔥",
-    "🥰",
-    "👏",
-    "😁",
-    "🤔",
-    "🤯",
-    "😱",
-    "😢",
-    "🎉",
-    "🤩",
-    "🤮",
-    "💩",
-    "🙏",
-    "👌",
-    "🕊",
-    "🤡",
-    "🥱",
-    "🥴",
-    "😍",
-    "🐳",
-    "❤",
-    "‍🔥",
-    "🌚",
-    "🌭",
-    "💯",
-    "🤣",
-    "⚡",
-    "🏆",
-    "💔",
-    "🤨",
-    "😐",
-    "🍓",
-    "🍾",
-    "💋",
-    "😈",
-    "😴",
-    "😭",
-    "🤓",
-    "👻",
-    "👨‍💻",
-    "👀",
-    "🎃",
-    "🙈",
-    "😇",
-    "😨",
-    "🤝",
-    "✍",
-    "🤗",
-    "🫡",
-    "🎅",
-    "🎄",
-    "☃",
-    "💅",
-    "🤪",
-    "🗿",
-    "🆒",
-    "💘",
-    "🙉",
-    "🦄",
-    "😘",
-    "💊",
-    "🙊",
-    "😎",
-    "👾",
-    "🤷‍♂",
-    "🤷",
-    "🤷‍♀",
-    "😡",
-]
+
 loop = asyncio.get_running_loop()
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_comm(client, message: Message, _):
     user_id = message.from_user.id
-    chat_id = message.chat.id
-    message_id = message.id
     current_time = time()
     # Update the last message timestamp for the user
     last_message_time = user_last_message_time.get(user_id, 0)
@@ -179,7 +106,6 @@ async def start_comm(client, message: Message, _):
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
             # Block the user if they exceed the threshold
-            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             hu = await message.reply_text(f"**🧑🏻‍💻┋ {message.from_user.mention} بۆت سپام مەکە بەڕێز\n🧑🏻‍💻┋ پێنج چرکە بوەستە**")
             await asyncio.sleep(3)
             await hu.delete()
@@ -188,7 +114,6 @@ async def start_comm(client, message: Message, _):
         # If more than the spam window time has passed, reset the command count and update the message timestamp
         user_command_count[user_id] = 1
         user_last_message_time[user_id] = current_time
-    await app.send_reaction(chat_id, message_id, random.choice(emoji))
     await add_served_user(message.from_user.id)
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
@@ -199,27 +124,22 @@ async def start_comm(client, message: Message, _):
                     caption=_["help_1"],
                     reply_markup=help_mark,
                 )
-                await app.send_reaction(chat_id, message_id, random.choice(emoji))
             else:
                 return await message.reply_photo(
                     random.choice(IQ_PICS),
                     caption=_["help_1"],
                     reply_markup=keyboard,
                 )
-                await app.send_reaction(chat_id, message_id, random.choice(emoji))
         if name[0:4] == "song":
-            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             await message.reply_text(_["song_2"])
             return
         if name == "mkdwn_help":
-            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             await message.reply(
                 MARKDOWN,
                 parse_mode=ParseMode.HTML,
                 disable_web_page_preview=True,
             )
         if name == "greetings":
-            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             await message.reply(
                 WELCOMEHELP,
                 parse_mode=ParseMode.HTML,
@@ -227,8 +147,7 @@ async def start_comm(client, message: Message, _):
             )
 
         if name[0:3] == "sta":
-            await app.send_reaction(chat_id, message_id, random.choice(emoji))
-            m = await message.reply_text("🔎 ғᴇᴛᴄʜɪɴɢ ʏᴏᴜʀ ᴘᴇʀsᴏɴᴀʟ sᴛᴀᴛs.!")
+            m = await message.reply_text("🔎!")
             stats = await get_userss(message.from_user.id)
             tot = len(stats)
             if not stats:
@@ -281,7 +200,6 @@ async def start_comm(client, message: Message, _):
         if name[0:3] == "sud":
             await sudoers_list(client=client, message=message, _=_)
             await asyncio.sleep(1)
-            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             if await is_on_off(config.LOG):
                 return await app.send_message(
                     config.LOG_GROUP_ID,
@@ -349,7 +267,6 @@ async def start_comm(client, message: Message, _):
                 reply_markup=key,
             )
             await asyncio.sleep(2)
-            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             if await is_on_off(config.LOG):
                 return await app.send_message(
                     config.LOG_GROUP_ID,
@@ -364,21 +281,18 @@ async def start_comm(client, message: Message, _):
         out = private_panel(_, app.username, OWNER)
         if config.START_IMG_URL:
             try:
-                await app.send_reaction(chat_id, message_id, random.choice(emoji))
                 await message.reply_photo(
                     photo=config.START_IMG_URL,
                     caption=_["start_2"].format(message.from_user.mention, app.mention),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
             except:
-                await app.send_reaction(chat_id, message_id, random.choice(emoji))
                 await message.reply_photo(
                     random.choice(IQ_PICS),
                     caption=_["start_2"].format(message.from_user.mention, app.mention),
                     reply_markup=InlineKeyboardMarkup(out),
                 )
         else:
-            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             await message.reply_photo(
                 random.choice(IQ_PICS),
                 caption=_["start_2"].format(message.from_user.mention, app.mention),
@@ -395,8 +309,6 @@ async def start_comm(client, message: Message, _):
 @LanguageStart
 async def start_gp(client, message: Message, _):
     user_id = message.from_user.id
-    chat_id = message.chat.id
-    message_id = message.id
     current_time = time()
     
     # Update the last message timestamp for the user
@@ -408,7 +320,6 @@ async def start_gp(client, message: Message, _):
         user_command_count[user_id] = user_command_count.get(user_id, 0) + 1
         if user_command_count[user_id] > SPAM_THRESHOLD:
             # Block the user if they exceed the threshold
-            await app.send_reaction(chat_id, message_id, random.choice(emoji))
             hu = await message.reply_text(f"**🧑🏻‍💻┋ {message.from_user.mention} بۆت سپام مەکە بەڕێز\n🧑🏻‍💻┋ پێنج چرکە بوەستە**")
             await asyncio.sleep(3)
             await hu.delete()
@@ -420,7 +331,6 @@ async def start_gp(client, message: Message, _):
         
     out = alive_panel(_)
     BOT_UP = await bot_up_time()
-    await app.send_reaction(chat_id, message_id, random.choice(emoji))
     await message.reply_video(
         random.choice(IQ_VIDS),
         caption=_["start_8"].format(app.mention, BOT_UP),
