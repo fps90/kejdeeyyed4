@@ -1,8 +1,7 @@
 from math import ceil
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from YukkiMusic import MOD_LOAD, MOD_NOLOAD
 
-COLUMN_SIZE = 3  # Controls the number of rows
+COLUMN_SIZE = 5  # Controls the number of rows
 NUM_COLUMNS = 3  # Controls the number of columns
 
 
