@@ -1,4 +1,4 @@
-name: Black
+'''name: Black
 
 on: push
 
@@ -6,8 +6,8 @@ jobs:
   black:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
       - name: Install black
         run: |
           python -m pip install --upgrade pip
@@ -21,4 +21,4 @@ jobs:
             repository: .
             commit_user_name: j0g5gd8798ly
             commit_user_email: j0g5gd8798ly@users.noreply.github.com
-            commit_author: j0g5gd8798ly <j0g5gd8798ly@users.noreply.github.com>
+            commit_author: j0g5gd8798ly <j0g5gd8798ly@users.noreply.github.com>'''
