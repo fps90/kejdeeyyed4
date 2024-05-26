@@ -8,78 +8,6 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from pyrogram.enums import ChatAction, ChatType
 from YukkiMusic import app
 
-emoji = [
-    "👍",
-    "❤",
-    "🔥",
-    "🥰",
-    "👏",
-    "😁",
-    "🤔",
-    "🤯",
-    "😱",
-    "😢",
-    "🎉",
-    "🤩",
-    "🤮",
-    "💩",
-    "🙏",
-    "👌",
-    "🕊",
-    "🤡",
-    "🥱",
-    "🥴",
-    "😍",
-    "🐳",
-    "❤",
-    "‍🔥",
-    "🌚",
-    "🌭",
-    "💯",
-    "🤣",
-    "⚡",
-    "🏆",
-    "💔",
-    "🤨",
-    "😐",
-    "🍓",
-    "🍾",
-    "💋",
-    "😈",
-    "😴",
-    "😭",
-    "🤓",
-    "👻",
-    "👨‍💻",
-    "👀",
-    "🎃",
-    "🙈",
-    "😇",
-    "😨",
-    "🤝",
-    "✍",
-    "🤗",
-    "🫡",
-    "🎅",
-    "🎄",
-    "☃",
-    "💅",
-    "🤪",
-    "🗿",
-    "🆒",
-    "💘",
-    "🙉",
-    "🦄",
-    "😘",
-    "💊",
-    "🙊",
-    "😎",
-    "👾",
-    "🤷‍♂",
-    "🤷",
-    "🤷‍♀",
-    "😡",
-]
 
 @app.on_message(
     filters.command(
@@ -89,12 +17,9 @@ emoji = [
 )
 async def couples(app, message):
     cid = message.chat.id
-    message_id = message.id
     if message.chat.type == ChatType.PRIVATE:
-        await app.send_reaction(cid, message_id, random.choice(emoji))
         return await message.reply_text("**تەنیا لە گرووپ کارەکات😂🙂**")
     try:
-        await app.send_reaction(cid, message_id, random.choice(emoji))
         msg = await message.reply_text("**دوو ئاشقە شێتەکە دیاری دەکرێت😂🙂🫶🏻!**")
         list_of_users = []
 
@@ -154,13 +79,11 @@ async def couples(app, message):
         img.save(f"test_{cid}.png")
 
         TXT = f"""**
-➖➖➖➖➖➖➖➖➖➖➖➖
 کەپڵەکان دیاری کران 💍🌚 :
-➖➖➖➖➖➖➖➖➖➖➖➖
+➖➖➖➖➖➖➖➖➖➖➖➖➖➖
 {N1} + {N2} = ❣️
-➖➖➖➖➖➖➖➖➖➖➖➖
-پیرۆزە 😂🎉 
-➖➖➖➖➖➖➖➖➖➖➖➖
+➖➖➖➖➖➖➖➖➖➖➖➖➖➖
+پیرۆزە 😂🎉
 **
 """
         await app.send_chat_action(message.chat.id, ChatAction.UPLOAD_PHOTO)
