@@ -93,6 +93,14 @@ def stream_markup(_, videoid, chat_id):
         ),
     ],
     [
+
+        InlineKeyboardButton(
+                text="𝗦𝗸𝗶𝗽",
+                callback_data=f"ADMIN Skip|{chat_id}"
+        ),
+    ],
+    [
+        
             InlineKeyboardButton(
                 text=_["P_B_2"],
                 callback_data=f"downloadvideo {videoid}"),
