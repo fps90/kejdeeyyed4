@@ -1,4 +1,3 @@
-
 #
 # Copyright (C) 2024-present by TeamYukki@Github, < https://github.com/TeamYukki >.
 #
@@ -12,7 +11,7 @@
 import logging
 import os
 import sys
-from os import listdir, mkdir
+from os import listdir, mkdir, rmdir
 
 
 def dirr():
@@ -40,6 +39,9 @@ def dirr():
     if workdir not in listdir():
         mkdir(workdir)
 
+    if workdir in listdir():
+        rmdir(workdir)
+        mkdir(workdir)
     logging.info("Directories Updated.")
 
 
