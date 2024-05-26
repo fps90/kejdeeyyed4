@@ -10,9 +10,9 @@
 
 import logging
 import os
+import shutil
 import sys
 from os import listdir, mkdir
-import shutil
 
 
 def dirr():
