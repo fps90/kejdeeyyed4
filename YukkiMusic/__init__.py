@@ -8,16 +8,15 @@
 # All rights reserved.
 #
 
+from SafoneAPI import SafoneAPI
 from telethon import TelegramClient
 
-from config import API_ID, API_HASH
+from config import API_HASH, API_ID
 from YukkiMusic.core.bot import YukkiBot
 from YukkiMusic.core.dir import dirr
 from YukkiMusic.core.git import git
 from YukkiMusic.core.userbot import Userbot
 from YukkiMusic.misc import dbb, heroku, sudo
-from SafoneAPI import SafoneAPI
-
 
 from .logging import LOGGER
 
