@@ -1,5 +1,6 @@
+
 #
-# Copyright (C) 2021-present by TeamYukki@Github, < https://github.com/TeamYukki >.
+# Copyright (C) 2024-present by TeamYukki@Github, < https://github.com/TeamYukki >.
 #
 # This file is part of < https://github.com/TeamYukki/YukkiMusicBot > project,
 # and is released under the "GNU v3.0 License Agreement".
@@ -18,6 +19,7 @@ def dirr():
     assets_folder = "assets"
     downloads_folder = "downloads"
     cache_folder = "cache"
+    workdir = "datafiles"
 
     if assets_folder not in listdir():
         logging.warning(
@@ -34,6 +36,9 @@ def dirr():
 
     if cache_folder not in listdir():
         mkdir(cache_folder)
+
+    if workdir not in listdir():
+        mkdir(workdir)
 
     logging.info("Directories Updated.")
 
