@@ -125,7 +125,7 @@ async def del_back_playlist(client, CallbackQuery, _):
         await mute_on(chat_id)
         await Yukki.mute_stream(chat_id)
         await CallbackQuery.message.reply_text(
-            _["admin_6"].format(mention), disable_web_page_preview=True
+            _["admin_6"].format(mention), reply_markup=close_markup(_)
         )
     elif command == "Unmute":
         if not await is_muted(chat_id):
@@ -134,7 +134,7 @@ async def del_back_playlist(client, CallbackQuery, _):
         await mute_off(chat_id)
         await Yukki.unmute_stream(chat_id)
         await CallbackQuery.message.reply_text(
-            _["admin_8"].format(mention), disable_web_page_preview=True
+            _["admin_8"].format(mention), reply_markup=close_markup(_)
         )
     elif command == "Loop":
         await CallbackQuery.answer()
