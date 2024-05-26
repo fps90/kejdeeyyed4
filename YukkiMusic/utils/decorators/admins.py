@@ -32,7 +32,8 @@ from ..formatters import int_to_alpha
 def AdminRightsCheck(mystic):
     async def wrapper(client, message):
         if await is_maintenance() is False:
-            if message.from_user.id not in SUDOERS:
+            if message.from_user:
+                if message.from_user.id and message.from_user.id not in SUDOERS:
                 return await message.reply_text(
                     "Bot is under maintenance. Please wait for some time..."
                 )
@@ -72,7 +73,8 @@ def AdminRightsCheck(mystic):
             return await message.reply_text(_["general_6"])
         is_non_admin = await is_nonadmin_chat(message.chat.id)
         if not is_non_admin:
-            if message.from_user.id not in SUDOERS:
+            if message.from_user:
+                if message.from_user.id and message.from_user.id not in SUDOERS:
                 admins = adminlist.get(message.chat.id)
                 if not admins:
                     return await message.reply_text(_["admin_18"])
@@ -87,7 +89,8 @@ def AdminRightsCheck(mystic):
 def AdminActual(mystic):
     async def wrapper(client, message):
         if await is_maintenance() is False:
-            if message.from_user.id not in SUDOERS:
+            if message.from_user:
+                if message.from_user.id and message.from_user.id not in SUDOERS:
                 return await message.reply_text(
                     "Bot is under maintenance. Please wait for some time..."
                 )
@@ -131,7 +134,8 @@ def AdminActual(mystic):
 def ActualAdminCB(mystic):
     async def wrapper(client, CallbackQuery):
         if await is_maintenance() is False:
-            if CallbackQuery.from_user.id not in SUDOERS:
+            if message.from_user:
+                if message.from_user.id and message.from_user.id not in SUDOERS:
                 return await CallbackQuery.answer(
                     "Bot is under maintenance. Please wait for some time...",
                     show_alert=True,
