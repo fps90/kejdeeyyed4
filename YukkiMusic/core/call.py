@@ -9,50 +9,34 @@
 #
 
 import asyncio
-import logging
 from datetime import datetime, timedelta
 from typing import Union
+
+from ntgcalls import TelegramServerError
 from pyrogram import Client
-from pyrogram.errors import (
-    ChatAdminRequired,
-    UserAlreadyParticipant,
-    UserNotParticipant,
-)
+from pyrogram.errors import (ChatAdminRequired, UserAlreadyParticipant,
+                             UserNotParticipant)
 from pyrogram.types import InlineKeyboardMarkup
 from pytgcalls import PyTgCalls, filters
-from ntgcalls import TelegramServerError
-from pytgcalls.types import ChatUpdate, GroupCallParticipant
 from pytgcalls.exceptions import AlreadyJoinedError, NoActiveGroupCall
-from pytgcalls.types import (
-    GroupCallParticipant,
-    MediaStream,
-    Update,
-)
+from pytgcalls.types import (ChatUpdate, GroupCallParticipant, MediaStream,
+                             Update)
 from pytgcalls.types.stream import StreamAudioEnded
+
 import config
+from strings import get_string
 from YukkiMusic import LOGGER, YouTube, app
-from YukkiMusic.utils.formatters import check_duration, seconds_to_min, speed_converter
 from YukkiMusic.misc import db
-from YukkiMusic.utils.database import (
-    add_active_chat,
-    add_active_video_chat,
-    get_assistant,
-    get_audio_bitrate,
-    get_lang,
-    get_loop,
-    get_video_bitrate,
-    group_assistant,
-    is_autoend,
-    music_on,
-    remove_active_chat,
-    remove_active_video_chat,
-    set_loop,
-)
+from YukkiMusic.utils.database import (add_active_chat, add_active_video_chat,
+                                       get_assistant, get_audio_bitrate,
+                                       get_lang, get_loop, get_video_bitrate,
+                                       group_assistant, is_autoend, music_on,
+                                       remove_active_chat,
+                                       remove_active_video_chat, set_loop)
 from YukkiMusic.utils.exceptions import AssistantErr
 from YukkiMusic.utils.inline.play import stream_markup, telegram_markup
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
-from strings import get_string
 
 autoend = {}
 counter = {}
@@ -336,16 +320,16 @@ class Call(PyTgCalls):
                 )
             except Exception:
                 raise AssistantErr(
-                    f"**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+                    f"<b>•⎆┊سەرەتا تێل بکەوە لە گرووپ\nئەگەر پێشتر تێلت کردۆتەوە\nبنووسە : /userbotjoin </b>"
                 )
 
         except AlreadyJoinedError:
             raise AssistantErr(
-                "**ᴀssɪsᴛᴀɴᴛ ᴀʟʀᴇᴀᴅʏ ɪɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ**\n\nᴍᴜsɪᴄ ʙᴏᴛ sʏsᴛᴇᴍs ᴅᴇᴛᴇᴄᴛᴇᴅ ᴛʜᴀᴛ ᴀssɪᴛᴀɴᴛ ɪs ᴀʟʀᴇᴀᴅʏ ɪɴ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ, ɪғ ᴛʜɪs ᴩʀᴏʙʟᴇᴍ ᴄᴏɴᴛɪɴᴜᴇs ʀᴇsᴛᴀʀᴛ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ."
+                "<b>•⎆┊یاریدەدەر لە تێلە\n\nئەگەر لە تێل نەبوو ئەم فەرمانە بنێرە : /reboot دواتر دووبارە گەڕان بۆ گۆرانی بکە♥️•</b>"
             )
         except TelegramServerError:
             raise AssistantErr(
-                "**ᴛᴇʟᴇɢʀᴀᴍ sᴇʀᴠᴇʀ ᴇʀʀᴏʀ**\n\nᴩʟᴇᴀsᴇ ᴛᴜʀɴ ᴏғғ ᴀɴᴅ ʀᴇsᴛᴀʀᴛ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɢᴀɪɴ."
+                "<b>•⎆┊هەڵەیەك لە سێرڤەری تێلەگرام\n\nتێلەگرام هەندێك کێشەی ناوەکی هەیە، تکایە تێل دابخە و دووبارە بیکەوە لە گرووپت♥️•</b>"
             )
         except Exception as e:
             if "phone.CreateGroupCall" in str(e):
@@ -360,7 +344,7 @@ class Call(PyTgCalls):
                     )
                 except Exception:
                     raise AssistantErr(
-                        f"**» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ ғᴏᴜɴᴅ.**\n\nᴩʟᴇᴀsᴇ ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ᴠɪᴅᴇᴏᴄʜᴀᴛ."
+                        f"<b>•⎆┊سەرەتا تێل بکەوە لە گرووپ\nئەگەر پێشتر تێلت کردۆتەوە\nبنووسە : /userbotjoin </b>"
                     )
 
         await add_active_chat(chat_id)
@@ -451,7 +435,7 @@ class Call(PyTgCalls):
                     original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
-                        title[:27],
+                        title[:23],
                         f"https://t.me/{app.username}?start=info_{videoid}",
                         check[0]["dur"],
                         user,
@@ -510,7 +494,7 @@ class Call(PyTgCalls):
                     original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
-                        title[:27],
+                        title[:23],
                         f"https://t.me/{app.username}?start=info_{videoid}",
                         check[0]["dur"],
                         user,
@@ -612,7 +596,7 @@ class Call(PyTgCalls):
                         original_chat_id,
                         photo=img,
                         caption=_["stream_1"].format(
-                            title[:27],
+                            title[:23],
                             f"https://t.me/{app.username}?start=info_{videoid}",
                             check[0]["dur"],
                             user,
