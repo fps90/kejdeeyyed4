@@ -10,7 +10,7 @@
 
 
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardMarkup, Message
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 import config
 from config import BANNED_USERS
@@ -19,7 +19,7 @@ from YukkiMusic.core.call import Yukki
 from YukkiMusic.misc import db
 from YukkiMusic.utils.database import get_loop
 from YukkiMusic.utils.decorators import AdminRightsCheck
-from YukkiMusic.utils.inline.play import stream_markup, telegram_markup
+from YukkiMusic.utils.inline import stream_markup, telegram_markup, close_markup
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
 
@@ -63,7 +63,7 @@ async def skip(cli, message: Message, _, chat_id):
                                         _["admin_10"].format(
                                             message.from_user.first_name
                                         ),
-                                        disable_web_page_preview=True,
+                                        reply_markup=close_markup(_),
                                     )
                                     await Yukki.stop_stream(chat_id)
                                 except:
@@ -87,7 +87,7 @@ async def skip(cli, message: Message, _, chat_id):
             if not check:
                 await message.reply_text(
                     _["admin_10"].format(message.from_user.first_name),
-                    disable_web_page_preview=True,
+                    reply_markup=close_markup(_),
                 )
                 try:
                     return await Yukki.stop_stream(chat_id)
@@ -97,7 +97,7 @@ async def skip(cli, message: Message, _, chat_id):
             try:
                 await message.reply_text(
                     _["admin_10"].format(message.from_user.first_name),
-                    disable_web_page_preview=True,
+                    reply_markup=close_markup(_),
                 )
                 return await Yukki.stop_stream(chat_id)
             except:
