@@ -27,6 +27,7 @@ class Userbot(Client):
                 api_hash=config.API_HASH,
                 session_string=str(config.STRING1),
                 no_updates=True,
+                workdir="datafiles",
             )
         else:
             self.one = None
@@ -38,6 +39,7 @@ class Userbot(Client):
                 api_hash=config.API_HASH,
                 session_string=str(config.STRING2),
                 no_updates=True,
+                workdir="datafiles",
             )
         else:
             self.two = None
@@ -49,6 +51,7 @@ class Userbot(Client):
                 api_hash=config.API_HASH,
                 session_string=str(config.STRING3),
                 no_updates=True,
+                workdir="datafiles",
             )
         else:
             self.three = None
@@ -60,6 +63,7 @@ class Userbot(Client):
                 api_hash=config.API_HASH,
                 session_string=str(config.STRING4),
                 no_updates=True,
+                workdir="datafiles",
             )
         else:
             self.four = None
@@ -71,6 +75,7 @@ class Userbot(Client):
                 api_hash=config.API_HASH,
                 session_string=str(config.STRING5),
                 no_updates=True,
+                workdir="datafiles",
             )
         else:
             self.five = None
