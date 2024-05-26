@@ -1,0 +1,31 @@
+name: Recover Previous Files in Dev Branch (with Verification and Commit)
+
+on:
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Identify commit SHA
+        id: commit_sha
+        run: echo "::set-output name=SHA c1a5f23f421ad01eae2a50fcb18bec3d40e4e970"
+      - name: Checkout main branch
+        run: git checkout main
+      - name: Checkout specific commit
+        run: |
+          git checkout ${{ steps.commit_sha.outputs.SHA }}
+      - name: Verify changes
+        run: git status
+      - name: Add all changes (stage for commit)
+        run: |
+          git add .
+          echo $?
+      - name: Commit changes with message (if changes detected)
+        run: |
+          if [ $? -eq 0 ]; then
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git commit -m "Recovered files from commit ${{ steps.commit_sha.outputs.SHA }}"
+          fi
