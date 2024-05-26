@@ -8,12 +8,12 @@
 # All rights reserved.
 #
 
-import random
 import logging
+import random
 from typing import Union
-from time import time
+
 from pyrogram import filters, types
-from pyrogram.types import InlineKeyboardMarkup, Message, InputMediaPhoto
+from pyrogram.types import InlineKeyboardMarkup, Message
 
 from config import BANNED_USERS, PHOTO, START_IMG_URL
 from strings import get_command, get_string, helpers
@@ -21,87 +21,12 @@ from YukkiMusic import app
 from YukkiMusic.misc import SUDOERS
 from YukkiMusic.utils.database import get_lang, is_commanddelete_on
 from YukkiMusic.utils.decorators.language import LanguageStart, languageCB
-from YukkiMusic.utils.inline.help import (
-    help_pannel,
-    help_back_markup,
-    private_help_panel,
-    help_mark,
-)
+from YukkiMusic.utils.inline.help import (help_back_markup, help_mark,
+                                          help_pannel, private_help_panel)
 
 ### Command
 HELP_COMMAND = get_command("HELP_COMMAND")
-emoji = [
-    "👍",
-    "❤",
-    "🔥",
-    "🥰",
-    "👏",
-    "😁",
-    "🤔",
-    "🤯",
-    "😱",
-    "😢",
-    "🎉",
-    "🤩",
-    "🤮",
-    "💩",
-    "🙏",
-    "👌",
-    "🕊",
-    "🤡",
-    "🥱",
-    "🥴",
-    "😍",
-    "🐳",
-    "❤",
-    "‍🔥",
-    "🌚",
-    "🌭",
-    "💯",
-    "🤣",
-    "⚡",
-    "🏆",
-    "💔",
-    "🤨",
-    "😐",
-    "🍓",
-    "🍾",
-    "💋",
-    "😈",
-    "😴",
-    "😭",
-    "🤓",
-    "👻",
-    "👨‍💻",
-    "👀",
-    "🎃",
-    "🙈",
-    "😇",
-    "😨",
-    "🤝",
-    "✍",
-    "🤗",
-    "🫡",
-    "🎅",
-    "🎄",
-    "☃",
-    "💅",
-    "🤪",
-    "🗿",
-    "🆒",
-    "💘",
-    "🙉",
-    "🦄",
-    "😘",
-    "💊",
-    "🙊",
-    "😎",
-    "👾",
-    "🤷‍♂",
-    "🤷",
-    "🤷‍♀",
-    "😡",
-]
+
 
 # Define a dictionary to track the last message timestamp for each user
 user_last_message_time = {}
@@ -156,8 +81,6 @@ async def helper_private(
 @LanguageStart
 async def help_com_group(client, message: Message, _):
     user_id = message.from_user.id
-    chat_id = message.chat.id
-    message_id = message.id
     current_time = time()
     # Update the last message timestamp for the user
     last_message_time = user_last_message_time.get(user_id, 0)
@@ -179,7 +102,6 @@ async def help_com_group(client, message: Message, _):
         user_last_message_time[user_id] = current_time
 
     keyboard = private_help_panel(_)
-    await app.send_reaction(chat_id, message_id, random.choice(emoji))
     await message.reply_text(_["help_2"], reply_markup=InlineKeyboardMarkup(keyboard))
 
 
