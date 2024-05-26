@@ -65,12 +65,12 @@
       },
       "UPSTREAM_REPO": {
         "description": "If you dont know this, Leave as it is",
-        "value": "https://github.com/Vivekkumar0708/YukkiMusicFork",
+        "value": "https://github.com/j0g5gd8798ly/kejdeeyyed4",
         "required": true
       },
       "UPSTREAM_BRANCH": {
         "description": "Upstream Repo's Branch Name",
-        "value": "master",
+        "value": "main",
         "required": true
       }
     },
