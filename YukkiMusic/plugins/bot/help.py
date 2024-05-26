@@ -11,7 +11,7 @@
 import random
 import logging
 from typing import Union
-
+from time import time
 from pyrogram import filters, types
 from pyrogram.types import InlineKeyboardMarkup, Message, InputMediaPhoto
 
