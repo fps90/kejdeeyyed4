@@ -37,9 +37,10 @@ from YukkiMusic.utils.database import (
 )
 from YukkiMusic.utils.decorators.language import languageCB
 from YukkiMusic.utils.formatters import seconds_to_min
-from YukkiMusic.utils.inline.play import (
+from YukkiMusic.utils.inline import (
     stream_markup,
     telegram_markup,
+    close_markup,
 )
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
@@ -74,8 +75,14 @@ async def del_back_playlist(client, CallbackQuery, _):
         await CallbackQuery.answer()
         await music_off(chat_id)
         await Yukki.pause_stream(chat_id)
+        buttons = [
+        [
+            InlineKeyboardButton(text="▷ 𝖱𝖾𝗌𝗎𝗆𝖾", callback_data=f"ADMIN Resume|{chat_id}"),
+            InlineKeyboardButton(text="𝖱𝖾𝗉𝗅𝖺𝗒 ↺", callback_data=f"ADMIN Replay|{chat_id}"),
+        ],
+        ]
         await CallbackQuery.message.reply_text(
-            _["admin_2"].format(mention), disable_web_page_preview=True
+            _["admin_2"].format(mention), reply_markup=InlineKeyboardMarkup(buttons)
         )
     elif command == "Resume":
         if await is_music_playing(chat_id):
@@ -83,15 +90,33 @@ async def del_back_playlist(client, CallbackQuery, _):
         await CallbackQuery.answer()
         await music_on(chat_id)
         await Yukki.resume_stream(chat_id)
+        buttons_resume = [
+        [
+
+            InlineKeyboardButton(
+                text="𝖲𝗄𝗂𝗉 ‣‣I", callback_data=f"ADMIN Skip|{chat_id}"
+            ),
+            InlineKeyboardButton(
+                text="▢ 𝖲𝗍𝗈𝗉", callback_data=f"ADMIN Stop|{chat_id}"
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="II 𝖯𝖺𝗎𝗌𝖾",
+                callback_data=f"ADMIN Pause|{chat_id}",
+            ),
+        ]
+    ]
+
         await CallbackQuery.message.reply_text(
-            _["admin_4"].format(mention), disable_web_page_preview=True
+            _["admin_4"].format(mention), reply_markup=InlineKeyboardMarkup(buttons_resume)
         )
     elif command == "Stop" or command == "End":
         await CallbackQuery.answer()
         await Yukki.stop_stream(chat_id)
         await set_loop(chat_id, 0)
         await CallbackQuery.message.reply_text(
-            _["admin_9"].format(mention), disable_web_page_preview=True
+            _["admin_9"].format(mention), reply_markup=close_markup(_)
         )
     elif command == "Mute":
         if await is_muted(chat_id):
@@ -216,7 +241,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             run = await CallbackQuery.message.reply_photo(
                 photo=img,
                 caption=_["stream_1"].format(
-                    title[:27],
+                    title[:23],
                     f"https://t.me/{app.username}?start=info_{videoid}",
                     duration_min,
                     user,
@@ -278,7 +303,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                 run = await CallbackQuery.message.reply_photo(
                     photo=img,
                     caption=_["stream_1"].format(
-                        title[:27],
+                        title[:23],
                         f"https://t.me/{app.username}?start=info_{videoid}",
                         duration_min,
                         user,
