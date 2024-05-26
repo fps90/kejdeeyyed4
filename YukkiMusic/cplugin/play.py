@@ -18,7 +18,13 @@ from pyrogram import Client, filters
 from pyrogram.enums import ChatMemberStatus, MessageEntityType
 from pyrogram.errors import (ChatAdminRequired, UserAlreadyParticipant,
                              UserNotParticipant)
-from pyrogram.types import Audio, Message, Voice
+from pyrogram.types import (
+    Message,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Audio,
+    Voice,
+)
 from pytgcalls.exceptions import (AlreadyJoinedError, NoActiveGroupCall,
                                   NotInCallError, UnMuteNeeded)
 from pytgcalls.types import AudioQuality, MediaStream
