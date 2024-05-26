@@ -11,6 +11,7 @@
 import random
 
 from pyrogram import filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup
 
 from config import (
