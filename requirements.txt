@@ -59,13 +59,9 @@ tgcrypto
 unidecode
 uuid==1.30
 gpytranslate
-openai==1.23.6
 pickledb
 img2pdf
 cloudscraper
 phonenumbers
 pycryptodome
 mpv
-MukeshAPI
-lexica-api
-cinemagoer==2023.5.1
