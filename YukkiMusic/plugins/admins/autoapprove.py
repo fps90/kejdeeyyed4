@@ -1,6 +1,13 @@
 from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
-from pyrogram.types import ChatJoinRequest
+from pyrogram.types import (
+    CallbackQuery,
+    Chat,
+    ChatJoinRequest,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+)
 
 from YukkiMusic import app
 from YukkiMusic.core.mongo import mongodb
