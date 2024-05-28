@@ -1,19 +1,12 @@
 from pyrogram import filters
 from pyrogram.enums import ChatMembersFilter
-from pyrogram.types import (
-    CallbackQuery,
-    Chat,
-    ChatJoinRequest,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    Message,
-)
+from pyrogram.types import ChatJoinRequest
 
 from YukkiMusic import app
 from YukkiMusic.core.mongo import mongodb
 from YukkiMusic.misc import SUDOERS
-from YukkiMusic.utils.permissions import adminsOnly, member_permissions
 from YukkiMusic.utils.keyboard import ikb
+from YukkiMusic.utils.permissions import adminsOnly, member_permissions
 
 approvaldb = mongodb.autoapprove
 
@@ -37,18 +30,18 @@ async def approval_command(client, message):
         else:
             switch = "automatic"
         buttons = {
-            "Turn OFF": "approval_off",
+            "ناچالاککردن": "approval_off",
             f"{(mode.upper())}": f"approval_{switch}",
         }
         keyboard = ikb(buttons, 1)
         await message.reply(
-            "**Autoapproval for this chat: Enabled.**", reply_markup=keyboard
+            "**پەسەندکردنی ئۆتۆماتیکی : چالاکە**", reply_markup=keyboard
         )
     else:
-        buttons = {"Turn ON": "approval_on"}
+        buttons = {"چالاککردن": "approval_on"}
         keyboard = ikb(buttons, 1)
         await message.reply(
-            "**Autoapproval for this chat: Disabled.**", reply_markup=keyboard
+            "**پەسەندکردنی ئۆتۆماتیکی : ناچالاکە.**", reply_markup=keyboard
         )
 
 
@@ -61,7 +54,7 @@ async def approval_cb(client, cb):
     if permission not in permissions:
         if from_user.id not in SUDOERS:
             return await cb.answer(
-                f"You don't have the required permission.\n Permission: {permission}",
+                f"**تۆ ڕۆڵی پێویستت نییە ئەزیزم\nڕۆڵ : {permission}**",
                 show_alert=True,
             )
     command_parts = cb.data.split("_", 1)
@@ -69,10 +62,10 @@ async def approval_cb(client, cb):
     if option == "off":
         if await approvaldb.count_documents({"chat_id": chat_id}) > 0:
             approvaldb.delete_one({"chat_id": chat_id})
-            buttons = {"Turn ON": "approval_on"}
+            buttons = {"چالاککردن": "approval_on"}
             keyboard = ikb(buttons, 1)
             return await cb.edit_message_text(
-                "**Autoapproval for this chat: Disabled.**",
+                "**پەسەندکردنی ئۆتۆماتیکی : ناچالاکە.**",
                 reply_markup=keyboard,
             )
     if option == "on":
@@ -91,10 +84,10 @@ async def approval_cb(client, cb):
     )
     chat = await approvaldb.find_one({"chat_id": chat_id})
     mode = chat["mode"].upper()
-    buttons = {"Turn OFF": "approval_off", f"{mode}": f"approval_{switch}"}
+    buttons = {"ناچالاککردن": "approval_off", f"{mode}": f"approval_{switch}"}
     keyboard = ikb(buttons, 1)
     await cb.edit_message_text(
-        "**Autoapproval for this chat: Enabled.**", reply_markup=keyboard
+        "**پەسەندکردنی ئۆتۆماتیکی : چالاکە**", reply_markup=keyboard
     )
 
 
@@ -107,9 +100,9 @@ async def clear_pending_command(client, message):
         {"$set": {"pending_users": []}},
     )
     if result.modified_count > 0:
-        await message.reply_text("Cleared pending users.")
+        await message.reply_text("**بەکارهێنەرانی چاوەڕوانکراو پاککرایەوە.**")
     else:
-        await message.reply_text("No pending users to clear.")
+        await message.reply_text("**هیچ بەکارهێنەرێ چاوەڕوانکراو نییە بۆ پاککردنەوە**")
 
 
 @app.on_chat_join_request(filters.group)
@@ -133,11 +126,11 @@ async def accept(client, message: ChatJoinRequest):
                     upsert=True,
                 )
                 buttons = {
-                    "accept": f"manual_approve_{user.id}",
-                    "Decline": f"manual_decline_{user.id}",
+                    "پەسەندکردن": f"manual_approve_{user.id}",
+                    "ڕەتکردنەوە": f"manual_decline_{user.id}",
                 }
                 keyboard = ikb(buttons, int(2))
-                text = f"**User: {user.mention} has send a request to join our  group. Any admins can accept or decline it.**"
+                text = f"**بەکارهێنەر : {user.mention} داواکاری نارد بۆ جۆین کردنی لە گرووپ ئایا هیچ ئەدمینێ هەیە وەریبگرێت یان ڕەتی بکاتەوە**"
                 admin_data = [
                     i
                     async for i in app.get_chat_members(
@@ -161,7 +154,7 @@ async def manual(app, cb):
     if permission not in permissions:
         if from_user.id not in SUDOERS:
             return await cb.answer(
-                f"You don't have the required permission.\n Permission: {permission}",
+                f"**تۆ ڕۆڵی پێویستت نییە ئەزیزم\nڕۆڵ : {permission}**",
                 show_alert=True,
             )
     datas = cb.data.split("_", 2)
